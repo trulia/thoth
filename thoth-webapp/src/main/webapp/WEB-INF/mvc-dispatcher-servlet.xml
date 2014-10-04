@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="placeholderConfig"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+
+        <property name="locations">
+            <list>
+                <value>classpath:application.default.properties</value>
+                <value>classpath:application.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="sampler" class="com.trulia.thoth.quartz.Scheduler" init-method="init">
+        <property name="samplingEnabled" value="${thoth.sampling.enabled}"/>
+        <property name="samplingDir" value="${thoth.sampling.dir}"/>
+        <property name="mergingDir" value="${thoth.merging.dir}"/>
+        <property name="serverDetails" value="${thoth.sampling.serverDetails}"/>
+    </bean>
+
+    <bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="brokerURL">
+                    <value>tcp://${activemq.host}:${activemq.port}?jms.prefetchPolicy.queuePrefetch=0</value>
+                </property>
+
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="thothIndexConnection" class="com.trulia.thoth.ThothConnection" init-method="init">
+        <property name="thothIndexURL" value="${thoth.index.url}"/>
+
+    </bean>
+
+    <bean id="messageListener" class="org.springframework.jms.listener.DefaultMessageListenerContainer" >
+        <property name="concurrentConsumers" value="${thoth.consumers.concurrent}"/>
+        <property name="maxConcurrentConsumers" value="${thoth.consumers.max}"/>
+        <property name="connectionFactory" ref="jmsFactory"/>
+        <property name="destinationName" value="${thoth.queue.input}"/>
+
+        <property name="messageListener">
+            <bean class="com.trulia.thoth.MessageImporter" init-method="init">
+                <property name="thothIndexConnection" ref="thothIndexConnection"/>
+            </bean>
+        </property>
+        <property name="errorHandler">
+            <bean class="com.trulia.thoth.MessageImporter"/>
+        </property>
+    </bean>
+
+
+</beans>
