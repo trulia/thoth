@@ -24,7 +24,7 @@ public class Scheduler {
               .newTrigger()
               .withIdentity("samplerTrigger", "group1")
               .withSchedule(
-                      CronScheduleBuilder.cronSchedule("0 * * * * ?")) // execute this every day at midnight
+                      CronScheduleBuilder.cronSchedule("0 * * * * ?"))
               .build();
 
       //Schedule it
