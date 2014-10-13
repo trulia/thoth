@@ -1,0 +1,227 @@
+INFO  - 2014-10-12 17:32:49.502; org.eclipse.jetty.server.Server; jetty-8.1.10.v20130312
+INFO  - 2014-10-12 17:32:49.525; org.eclipse.jetty.deploy.providers.ScanningAppProvider; Deployment monitor /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/contexts at interval 0
+INFO  - 2014-10-12 17:32:49.530; org.eclipse.jetty.deploy.DeploymentManager; Deployable added: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/contexts/solr-jetty-context.xml
+INFO  - 2014-10-12 17:32:49.663; org.eclipse.jetty.webapp.StandardDescriptorProcessor; NO JSP Support for /solr, did not find org.apache.jasper.servlet.JspServlet
+INFO  - 2014-10-12 17:32:49.729; org.eclipse.jetty.server.AbstractConnector; Started SocketConnector@0.0.0.0:8983
+INFO  - 2014-10-12 17:33:01.805; org.eclipse.jetty.server.Server; Graceful shutdown SocketConnector@0.0.0.0:8983
+INFO  - 2014-10-12 17:33:01.806; org.eclipse.jetty.server.Server; Graceful shutdown o.e.j.w.WebAppContext{/solr,file:/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr-webapp/webapp/},/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/webapps/solr.war
+INFO  - 2014-10-12 17:33:02.814; org.eclipse.jetty.server.handler.ContextHandler; stopped o.e.j.w.WebAppContext{/solr,file:/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr-webapp/webapp/},/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/webapps/solr.war
+INFO  - 2014-10-12 17:33:03.398; org.eclipse.jetty.server.Server; jetty-8.1.10.v20130312
+INFO  - 2014-10-12 17:33:03.422; org.eclipse.jetty.deploy.providers.ScanningAppProvider; Deployment monitor /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/contexts at interval 0
+INFO  - 2014-10-12 17:33:03.426; org.eclipse.jetty.deploy.DeploymentManager; Deployable added: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/contexts/solr-jetty-context.xml
+INFO  - 2014-10-12 17:33:04.517; org.eclipse.jetty.webapp.StandardDescriptorProcessor; NO JSP Support for /solr, did not find org.apache.jasper.servlet.JspServlet
+INFO  - 2014-10-12 17:33:04.599; org.apache.solr.servlet.SolrDispatchFilter; SolrDispatchFilter.init()
+INFO  - 2014-10-12 17:33:04.613; org.apache.solr.core.SolrResourceLoader; JNDI not configured for solr (NoInitialContextEx)
+INFO  - 2014-10-12 17:33:04.613; org.apache.solr.core.SolrResourceLoader; solr home defaulted to 'solr/' (could not find system property or JNDI)
+INFO  - 2014-10-12 17:33:04.614; org.apache.solr.core.SolrResourceLoader; new SolrResourceLoader for directory: 'solr/'
+INFO  - 2014-10-12 17:33:04.706; org.apache.solr.core.ConfigSolr; Loading container configuration from /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/solr.xml
+INFO  - 2014-10-12 17:33:04.800; org.apache.solr.core.CorePropertiesLocator; Config-defined core root directory: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr
+INFO  - 2014-10-12 17:33:04.808; org.apache.solr.core.CoreContainer; New CoreContainer 1358669058
+INFO  - 2014-10-12 17:33:04.809; org.apache.solr.core.CoreContainer; Loading cores into CoreContainer [instanceDir=solr/]
+INFO  - 2014-10-12 17:33:04.820; org.apache.solr.handler.component.HttpShardHandlerFactory; Setting socketTimeout to: 0
+INFO  - 2014-10-12 17:33:04.820; org.apache.solr.handler.component.HttpShardHandlerFactory; Setting urlScheme to: null
+INFO  - 2014-10-12 17:33:04.824; org.apache.solr.handler.component.HttpShardHandlerFactory; Setting connTimeout to: 0
+INFO  - 2014-10-12 17:33:04.825; org.apache.solr.handler.component.HttpShardHandlerFactory; Setting maxConnectionsPerHost to: 20
+INFO  - 2014-10-12 17:33:04.826; org.apache.solr.handler.component.HttpShardHandlerFactory; Setting corePoolSize to: 0
+INFO  - 2014-10-12 17:33:04.827; org.apache.solr.handler.component.HttpShardHandlerFactory; Setting maximumPoolSize to: 2147483647
+INFO  - 2014-10-12 17:33:04.827; org.apache.solr.handler.component.HttpShardHandlerFactory; Setting maxThreadIdleTime to: 5
+INFO  - 2014-10-12 17:33:04.827; org.apache.solr.handler.component.HttpShardHandlerFactory; Setting sizeOfQueue to: -1
+INFO  - 2014-10-12 17:33:04.827; org.apache.solr.handler.component.HttpShardHandlerFactory; Setting fairnessPolicy to: false
+INFO  - 2014-10-12 17:33:04.996; org.apache.solr.logging.LogWatcher; SLF4J impl is org.slf4j.impl.Log4jLoggerFactory
+INFO  - 2014-10-12 17:33:04.997; org.apache.solr.logging.LogWatcher; Registering Log Listener [Log4j (org.slf4j.impl.Log4jLoggerFactory)]
+INFO  - 2014-10-12 17:33:04.998; org.apache.solr.core.CoreContainer; Host Name: 
+INFO  - 2014-10-12 17:33:05.031; org.apache.solr.core.CorePropertiesLocator; Looking for core definitions underneath /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr
+INFO  - 2014-10-12 17:33:05.039; org.apache.solr.core.CorePropertiesLocator; Found core collection1 in /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/
+INFO  - 2014-10-12 17:33:05.040; org.apache.solr.core.CorePropertiesLocator; Found core shrank in /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/
+INFO  - 2014-10-12 17:33:05.041; org.apache.solr.core.CorePropertiesLocator; Found 2 core definitions
+INFO  - 2014-10-12 17:33:05.042; org.apache.solr.core.CoreContainer; Creating SolrCore 'collection1' using instanceDir: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1
+INFO  - 2014-10-12 17:33:05.042; org.apache.solr.core.SolrResourceLoader; new SolrResourceLoader for directory: '/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/'
+INFO  - 2014-10-12 17:33:05.042; org.apache.solr.core.CoreContainer; Creating SolrCore 'shrank' using instanceDir: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank
+INFO  - 2014-10-12 17:33:05.043; org.apache.solr.core.SolrResourceLoader; new SolrResourceLoader for directory: '/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/'
+INFO  - 2014-10-12 17:33:05.119; org.apache.solr.core.SolrConfig; Adding specified lib dirs to ClassLoader
+WARN  - 2014-10-12 17:33:05.119; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../contrib/extraction/lib (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/../../../contrib/extraction/lib).
+WARN  - 2014-10-12 17:33:05.120; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../dist/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/../../../dist).
+INFO  - 2014-10-12 17:33:05.120; org.apache.solr.core.SolrConfig; Adding specified lib dirs to ClassLoader
+WARN  - 2014-10-12 17:33:05.120; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../contrib/clustering/lib/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/../../../contrib/clustering/lib).
+WARN  - 2014-10-12 17:33:05.121; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../contrib/extraction/lib (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/../../../contrib/extraction/lib).
+WARN  - 2014-10-12 17:33:05.121; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../dist/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/../../../dist).
+WARN  - 2014-10-12 17:33:05.121; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../dist/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/../../../dist).
+WARN  - 2014-10-12 17:33:05.121; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../contrib/langid/lib/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/../../../contrib/langid/lib).
+WARN  - 2014-10-12 17:33:05.122; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../contrib/clustering/lib/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/../../../contrib/clustering/lib).
+WARN  - 2014-10-12 17:33:05.122; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../dist/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/../../../dist).
+WARN  - 2014-10-12 17:33:05.122; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../dist/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/../../../dist).
+WARN  - 2014-10-12 17:33:05.122; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../contrib/velocity/lib (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/../../../contrib/velocity/lib).
+WARN  - 2014-10-12 17:33:05.123; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../contrib/langid/lib/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/../../../contrib/langid/lib).
+WARN  - 2014-10-12 17:33:05.123; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../dist/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/../../../dist).
+WARN  - 2014-10-12 17:33:05.123; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../dist/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/../../../dist).
+WARN  - 2014-10-12 17:33:05.124; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../contrib/velocity/lib (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/../../../contrib/velocity/lib).
+WARN  - 2014-10-12 17:33:05.124; org.apache.solr.core.SolrResourceLoader; Can't find (or read) directory to add to classloader: ../../../dist/ (resolved as: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/../../../dist).
+INFO  - 2014-10-12 17:33:05.235; org.apache.solr.update.SolrIndexConfig; IndexWriter infoStream solr logging is enabled
+INFO  - 2014-10-12 17:33:05.235; org.apache.solr.update.SolrIndexConfig; IndexWriter infoStream solr logging is enabled
+INFO  - 2014-10-12 17:33:05.239; org.apache.solr.core.SolrConfig; Using Lucene MatchVersion: LUCENE_47
+INFO  - 2014-10-12 17:33:05.239; org.apache.solr.core.SolrConfig; Using Lucene MatchVersion: LUCENE_47
+INFO  - 2014-10-12 17:33:05.339; org.apache.solr.core.SolrConfig; Loaded SolrConfig: solrconfig.xml
+INFO  - 2014-10-12 17:33:05.339; org.apache.solr.core.SolrConfig; Loaded SolrConfig: solrconfig.xml
+INFO  - 2014-10-12 17:33:05.345; org.apache.solr.schema.IndexSchema; Reading Solr Schema from schema.xml
+INFO  - 2014-10-12 17:33:05.345; org.apache.solr.schema.IndexSchema; Reading Solr Schema from schema.xml
+INFO  - 2014-10-12 17:33:05.413; org.apache.solr.schema.IndexSchema; [shrank] Schema name=example
+INFO  - 2014-10-12 17:33:05.415; org.apache.solr.schema.IndexSchema; [collection1] Schema name=example
+INFO  - 2014-10-12 17:33:05.900; org.apache.solr.schema.IndexSchema; unique key field: id
+INFO  - 2014-10-12 17:33:05.900; org.apache.solr.schema.IndexSchema; unique key field: id
+INFO  - 2014-10-12 17:33:05.978; org.apache.solr.schema.FileExchangeRateProvider; Reloading exchange rates from file currency.xml
+INFO  - 2014-10-12 17:33:05.978; org.apache.solr.schema.FileExchangeRateProvider; Reloading exchange rates from file currency.xml
+INFO  - 2014-10-12 17:33:05.984; org.apache.solr.schema.FileExchangeRateProvider; Reloading exchange rates from file currency.xml
+INFO  - 2014-10-12 17:33:05.984; org.apache.solr.schema.FileExchangeRateProvider; Reloading exchange rates from file currency.xml
+INFO  - 2014-10-12 17:33:06.104; org.apache.solr.core.SolrCore; solr.StandardDirectoryFactory
+INFO  - 2014-10-12 17:33:06.104; org.apache.solr.core.SolrCore; solr.StandardDirectoryFactory
+INFO  - 2014-10-12 17:33:06.111; org.apache.solr.core.SolrCore; [collection1] Opening new SolrCore at /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/, dataDir=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data/
+INFO  - 2014-10-12 17:33:06.111; org.apache.solr.core.SolrCore; [shrank] Opening new SolrCore at /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/, dataDir=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data/
+INFO  - 2014-10-12 17:33:06.112; org.apache.solr.core.JmxMonitoredMap; No JMX servers found, not exposing Solr information with JMX.
+INFO  - 2014-10-12 17:33:06.112; org.apache.solr.core.JmxMonitoredMap; No JMX servers found, not exposing Solr information with JMX.
+INFO  - 2014-10-12 17:33:06.117; org.apache.solr.core.SolrCore; [collection1] Added SolrEventListener for newSearcher: org.apache.solr.core.QuerySenderListener{queries=[]}
+INFO  - 2014-10-12 17:33:06.117; org.apache.solr.core.SolrCore; [shrank] Added SolrEventListener for newSearcher: org.apache.solr.core.QuerySenderListener{queries=[]}
+INFO  - 2014-10-12 17:33:06.117; org.apache.solr.core.SolrCore; [collection1] Added SolrEventListener for firstSearcher: org.apache.solr.core.QuerySenderListener{queries=[{q=static firstSearcher warming in solrconfig.xml}]}
+INFO  - 2014-10-12 17:33:06.117; org.apache.solr.core.SolrCore; [shrank] Added SolrEventListener for firstSearcher: org.apache.solr.core.QuerySenderListener{queries=[{q=static firstSearcher warming in solrconfig.xml}]}
+INFO  - 2014-10-12 17:33:06.128; org.apache.solr.core.CachingDirectoryFactory; return new directory for /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data
+INFO  - 2014-10-12 17:33:06.128; org.apache.solr.core.CachingDirectoryFactory; return new directory for /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data
+INFO  - 2014-10-12 17:33:06.128; org.apache.solr.core.SolrCore; New index directory detected: old=null new=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data/index/
+INFO  - 2014-10-12 17:33:06.129; org.apache.solr.core.SolrCore; New index directory detected: old=null new=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data/index/
+INFO  - 2014-10-12 17:33:06.129; org.apache.solr.core.CachingDirectoryFactory; return new directory for /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data/index
+INFO  - 2014-10-12 17:33:06.129; org.apache.solr.core.CachingDirectoryFactory; return new directory for /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data/index
+INFO  - 2014-10-12 17:33:06.138; org.apache.solr.core.SolrCore; created json: solr.JSONResponseWriter
+INFO  - 2014-10-12 17:33:06.138; org.apache.solr.core.SolrCore; adding lazy queryResponseWriter: solr.VelocityResponseWriter
+INFO  - 2014-10-12 17:33:06.138; org.apache.solr.core.SolrCore; created json: solr.JSONResponseWriter
+INFO  - 2014-10-12 17:33:06.138; org.apache.solr.core.SolrCore; adding lazy queryResponseWriter: solr.VelocityResponseWriter
+INFO  - 2014-10-12 17:33:06.139; org.apache.solr.core.SolrCore; created velocity: solr.VelocityResponseWriter
+INFO  - 2014-10-12 17:33:06.139; org.apache.solr.core.SolrCore; created velocity: solr.VelocityResponseWriter
+INFO  - 2014-10-12 17:33:06.143; org.apache.solr.core.SolrCore; created xslt: solr.XSLTResponseWriter
+INFO  - 2014-10-12 17:33:06.143; org.apache.solr.core.SolrCore; created xslt: solr.XSLTResponseWriter
+INFO  - 2014-10-12 17:33:06.143; org.apache.solr.response.XSLTResponseWriter; xsltCacheLifetimeSeconds=5
+INFO  - 2014-10-12 17:33:06.143; org.apache.solr.response.XSLTResponseWriter; xsltCacheLifetimeSeconds=5
+INFO  - 2014-10-12 17:33:06.224; org.apache.solr.update.processor.UpdateRequestProcessorChain; creating updateRequestProcessorChain "uuid"
+INFO  - 2014-10-12 17:33:06.224; org.apache.solr.update.processor.UpdateRequestProcessorChain; creating updateRequestProcessorChain "uuid"
+INFO  - 2014-10-12 17:33:06.234; org.apache.solr.update.processor.UpdateRequestProcessorChain; inserting DistributedUpdateProcessorFactory into updateRequestProcessorChain "uuid"
+INFO  - 2014-10-12 17:33:06.234; org.apache.solr.update.processor.UpdateRequestProcessorChain; inserting DistributedUpdateProcessorFactory into updateRequestProcessorChain "uuid"
+INFO  - 2014-10-12 17:33:06.235; org.apache.solr.core.SolrCore; no updateRequestProcessorChain defined as default, creating implicit default
+INFO  - 2014-10-12 17:33:06.234; org.apache.solr.core.SolrCore; no updateRequestProcessorChain defined as default, creating implicit default
+INFO  - 2014-10-12 17:33:06.241; org.apache.solr.core.RequestHandlers; created /select: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.241; org.apache.solr.core.RequestHandlers; created /select: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.242; org.apache.solr.core.RequestHandlers; created /query: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.242; org.apache.solr.core.RequestHandlers; created /query: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.244; org.apache.solr.core.RequestHandlers; created /get: solr.RealTimeGetHandler
+INFO  - 2014-10-12 17:33:06.244; org.apache.solr.core.RequestHandlers; created /get: solr.RealTimeGetHandler
+INFO  - 2014-10-12 17:33:06.244; org.apache.solr.core.RequestHandlers; created /browse: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.244; org.apache.solr.core.RequestHandlers; created /browse: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.247; org.apache.solr.core.RequestHandlers; created /update: solr.UpdateRequestHandler
+INFO  - 2014-10-12 17:33:06.247; org.apache.solr.core.RequestHandlers; created /update: solr.UpdateRequestHandler
+WARN  - 2014-10-12 17:33:06.260; org.apache.solr.core.SolrResourceLoader; Solr loaded a deprecated plugin/analysis class [solr.JsonUpdateRequestHandler]. Please consult documentation how to replace it accordingly.
+WARN  - 2014-10-12 17:33:06.260; org.apache.solr.core.SolrResourceLoader; Solr loaded a deprecated plugin/analysis class [solr.JsonUpdateRequestHandler]. Please consult documentation how to replace it accordingly.
+INFO  - 2014-10-12 17:33:06.260; org.apache.solr.core.RequestHandlers; created /update/json: solr.JsonUpdateRequestHandler
+INFO  - 2014-10-12 17:33:06.261; org.apache.solr.core.RequestHandlers; created /update/json: solr.JsonUpdateRequestHandler
+WARN  - 2014-10-12 17:33:06.263; org.apache.solr.core.SolrResourceLoader; Solr loaded a deprecated plugin/analysis class [solr.CSVRequestHandler]. Please consult documentation how to replace it accordingly.
+WARN  - 2014-10-12 17:33:06.263; org.apache.solr.core.SolrResourceLoader; Solr loaded a deprecated plugin/analysis class [solr.CSVRequestHandler]. Please consult documentation how to replace it accordingly.
+INFO  - 2014-10-12 17:33:06.263; org.apache.solr.core.RequestHandlers; created /update/csv: solr.CSVRequestHandler
+INFO  - 2014-10-12 17:33:06.263; org.apache.solr.core.RequestHandlers; created /update/csv: solr.CSVRequestHandler
+INFO  - 2014-10-12 17:33:06.275; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.extraction.ExtractingRequestHandler
+INFO  - 2014-10-12 17:33:06.275; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.extraction.ExtractingRequestHandler
+INFO  - 2014-10-12 17:33:06.276; org.apache.solr.core.RequestHandlers; created /update/extract: solr.extraction.ExtractingRequestHandler
+INFO  - 2014-10-12 17:33:06.276; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.FieldAnalysisRequestHandler
+INFO  - 2014-10-12 17:33:06.276; org.apache.solr.core.RequestHandlers; created /update/extract: solr.extraction.ExtractingRequestHandler
+INFO  - 2014-10-12 17:33:06.276; org.apache.solr.core.RequestHandlers; created /analysis/field: solr.FieldAnalysisRequestHandler
+INFO  - 2014-10-12 17:33:06.276; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.FieldAnalysisRequestHandler
+INFO  - 2014-10-12 17:33:06.276; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.DocumentAnalysisRequestHandler
+INFO  - 2014-10-12 17:33:06.276; org.apache.solr.core.RequestHandlers; created /analysis/field: solr.FieldAnalysisRequestHandler
+INFO  - 2014-10-12 17:33:06.277; org.apache.solr.core.RequestHandlers; created /analysis/document: solr.DocumentAnalysisRequestHandler
+INFO  - 2014-10-12 17:33:06.277; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.DocumentAnalysisRequestHandler
+INFO  - 2014-10-12 17:33:06.277; org.apache.solr.core.RequestHandlers; created /analysis/document: solr.DocumentAnalysisRequestHandler
+INFO  - 2014-10-12 17:33:06.279; org.apache.solr.core.RequestHandlers; created /admin/: solr.admin.AdminHandlers
+INFO  - 2014-10-12 17:33:06.279; org.apache.solr.core.RequestHandlers; created /admin/: solr.admin.AdminHandlers
+INFO  - 2014-10-12 17:33:06.282; org.apache.solr.core.RequestHandlers; created /admin/ping: solr.PingRequestHandler
+INFO  - 2014-10-12 17:33:06.282; org.apache.solr.core.RequestHandlers; created /admin/ping: solr.PingRequestHandler
+INFO  - 2014-10-12 17:33:06.284; org.apache.solr.core.RequestHandlers; created /debug/dump: solr.DumpRequestHandler
+INFO  - 2014-10-12 17:33:06.284; org.apache.solr.core.RequestHandlers; created /debug/dump: solr.DumpRequestHandler
+INFO  - 2014-10-12 17:33:06.292; org.apache.solr.core.RequestHandlers; created /replication: solr.ReplicationHandler
+INFO  - 2014-10-12 17:33:06.292; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.292; org.apache.solr.core.RequestHandlers; created /replication: solr.ReplicationHandler
+INFO  - 2014-10-12 17:33:06.292; org.apache.solr.core.RequestHandlers; created /spell: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.292; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.292; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.292; org.apache.solr.core.RequestHandlers; created /tvrh: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.293; org.apache.solr.core.RequestHandlers; created /spell: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.293; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.293; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.293; org.apache.solr.core.RequestHandlers; created /terms: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.293; org.apache.solr.core.RequestHandlers; created /tvrh: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.293; org.apache.solr.core.RequestHandlers; adding lazy requestHandler: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.294; org.apache.solr.core.RequestHandlers; created /terms: solr.SearchHandler
+INFO  - 2014-10-12 17:33:06.305; org.apache.solr.handler.loader.XMLLoader; xsltCacheLifetimeSeconds=60
+INFO  - 2014-10-12 17:33:06.305; org.apache.solr.handler.loader.XMLLoader; xsltCacheLifetimeSeconds=60
+INFO  - 2014-10-12 17:33:06.307; org.apache.solr.handler.loader.XMLLoader; xsltCacheLifetimeSeconds=60
+INFO  - 2014-10-12 17:33:06.307; org.apache.solr.handler.loader.XMLLoader; xsltCacheLifetimeSeconds=60
+INFO  - 2014-10-12 17:33:06.308; org.apache.solr.handler.loader.XMLLoader; xsltCacheLifetimeSeconds=60
+INFO  - 2014-10-12 17:33:06.308; org.apache.solr.handler.loader.XMLLoader; xsltCacheLifetimeSeconds=60
+INFO  - 2014-10-12 17:33:06.322; org.apache.solr.update.CommitTracker; Hard AutoCommit: if uncommited for 15000ms; 
+INFO  - 2014-10-12 17:33:06.322; org.apache.solr.update.CommitTracker; Hard AutoCommit: if uncommited for 15000ms; 
+INFO  - 2014-10-12 17:33:06.322; org.apache.solr.update.CommitTracker; Soft AutoCommit: if uncommited for 1000ms; 
+INFO  - 2014-10-12 17:33:06.322; org.apache.solr.update.CommitTracker; Soft AutoCommit: if uncommited for 1000ms; 
+INFO  - 2014-10-12 17:33:06.365; org.apache.solr.core.SolrDeletionPolicy; SolrDeletionPolicy.onInit: commits: num=1
+	commit{dir=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data/index,segFN=segments_1,generation=1}
+INFO  - 2014-10-12 17:33:06.365; org.apache.solr.core.SolrDeletionPolicy; SolrDeletionPolicy.onInit: commits: num=1
+	commit{dir=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data/index,segFN=segments_1,generation=1}
+INFO  - 2014-10-12 17:33:06.366; org.apache.solr.core.SolrDeletionPolicy; newest commit generation = 1
+INFO  - 2014-10-12 17:33:06.366; org.apache.solr.core.SolrDeletionPolicy; newest commit generation = 1
+INFO  - 2014-10-12 17:33:06.372; org.apache.solr.search.SolrIndexSearcher; Opening Searcher@24d2fb67[collection1] main
+INFO  - 2014-10-12 17:33:06.372; org.apache.solr.search.SolrIndexSearcher; Opening Searcher@17773a14[shrank] main
+INFO  - 2014-10-12 17:33:06.376; org.apache.solr.handler.component.SpellCheckComponent; Initializing spell checkers
+INFO  - 2014-10-12 17:33:06.377; org.apache.solr.handler.component.SpellCheckComponent; Initializing spell checkers
+INFO  - 2014-10-12 17:33:06.384; org.apache.solr.spelling.DirectSolrSpellChecker; init: {name=default,field=text,classname=solr.DirectSolrSpellChecker,distanceMeasure=internal,accuracy=0.5,maxEdits=2,minPrefix=1,maxInspections=5,minQueryLength=4,maxQueryFrequency=0.01}
+INFO  - 2014-10-12 17:33:06.384; org.apache.solr.spelling.DirectSolrSpellChecker; init: {name=default,field=text,classname=solr.DirectSolrSpellChecker,distanceMeasure=internal,accuracy=0.5,maxEdits=2,minPrefix=1,maxInspections=5,minQueryLength=4,maxQueryFrequency=0.01}
+INFO  - 2014-10-12 17:33:06.392; org.apache.solr.handler.component.SpellCheckComponent; No queryConverter defined, using default converter
+INFO  - 2014-10-12 17:33:06.392; org.apache.solr.handler.component.SpellCheckComponent; No queryConverter defined, using default converter
+INFO  - 2014-10-12 17:33:06.410; org.apache.solr.handler.ReplicationHandler; Commits will be reserved for  10000
+INFO  - 2014-10-12 17:33:06.410; org.apache.solr.handler.ReplicationHandler; Commits will be reserved for  10000
+INFO  - 2014-10-12 17:33:06.410; org.apache.solr.core.QuerySenderListener; QuerySenderListener sending requests to Searcher@17773a14[shrank] main{StandardDirectoryReader(segments_1:1:nrt)}
+INFO  - 2014-10-12 17:33:06.410; org.apache.solr.core.QuerySenderListener; QuerySenderListener sending requests to Searcher@24d2fb67[collection1] main{StandardDirectoryReader(segments_1:1:nrt)}
+INFO  - 2014-10-12 17:33:06.411; org.apache.solr.core.CoreContainer; registering core: collection1
+INFO  - 2014-10-12 17:33:06.411; org.apache.solr.core.CoreContainer; registering core: shrank
+INFO  - 2014-10-12 17:33:06.413; org.apache.solr.servlet.SolrDispatchFilter; user.dir=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2
+INFO  - 2014-10-12 17:33:06.413; org.apache.solr.servlet.SolrDispatchFilter; SolrDispatchFilter.init() done
+INFO  - 2014-10-12 17:33:06.441; org.eclipse.jetty.server.AbstractConnector; Started SocketConnector@0.0.0.0:8983
+INFO  - 2014-10-12 17:33:06.453; org.apache.solr.core.SolrCore; [collection1] webapp=null path=null params={event=firstSearcher&q=static+firstSearcher+warming+in+solrconfig.xml&distrib=false} hits=0 status=0 QTime=41 
+INFO  - 2014-10-12 17:33:06.453; org.apache.solr.core.SolrCore; [shrank] webapp=null path=null params={event=firstSearcher&q=static+firstSearcher+warming+in+solrconfig.xml&distrib=false} hits=0 status=0 QTime=41 
+INFO  - 2014-10-12 17:33:06.453; org.apache.solr.core.QuerySenderListener; QuerySenderListener done.
+INFO  - 2014-10-12 17:33:06.453; org.apache.solr.handler.component.SpellCheckComponent$SpellCheckerListener; Loading spell index for spellchecker: default
+INFO  - 2014-10-12 17:33:06.453; org.apache.solr.core.QuerySenderListener; QuerySenderListener done.
+INFO  - 2014-10-12 17:33:06.453; org.apache.solr.handler.component.SpellCheckComponent$SpellCheckerListener; Loading spell index for spellchecker: wordbreak
+INFO  - 2014-10-12 17:33:06.454; org.apache.solr.handler.component.SpellCheckComponent$SpellCheckerListener; Loading spell index for spellchecker: default
+INFO  - 2014-10-12 17:33:06.454; org.apache.solr.core.SolrCore; [collection1] Registered new searcher Searcher@24d2fb67[collection1] main{StandardDirectoryReader(segments_1:1:nrt)}
+INFO  - 2014-10-12 17:33:06.454; org.apache.solr.handler.component.SpellCheckComponent$SpellCheckerListener; Loading spell index for spellchecker: wordbreak
+INFO  - 2014-10-12 17:33:06.454; org.apache.solr.core.SolrCore; [shrank] Registered new searcher Searcher@17773a14[shrank] main{StandardDirectoryReader(segments_1:1:nrt)}
+INFO  - 2014-10-12 17:33:10.777; org.apache.solr.servlet.SolrDispatchFilter; [admin] webapp=null path=/admin/cores params={indexInfo=false&_=1413160390733&wt=json} status=0 QTime=2 
+INFO  - 2014-10-12 17:33:10.940; org.apache.solr.servlet.SolrDispatchFilter; [admin] webapp=null path=/admin/info/system params={_=1413160390875&wt=json} status=0 QTime=56 
+INFO  - 2014-10-12 17:33:16.464; org.eclipse.jetty.server.Server; Graceful shutdown SocketConnector@0.0.0.0:8983
+INFO  - 2014-10-12 17:33:16.465; org.eclipse.jetty.server.Server; Graceful shutdown o.e.j.w.WebAppContext{/solr,file:/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr-webapp/webapp/},/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/webapps/solr.war
+INFO  - 2014-10-12 17:33:17.474; org.apache.solr.core.CoreContainer; Shutting down CoreContainer instance=1358669058
+INFO  - 2014-10-12 17:33:17.475; org.apache.solr.core.SolrCore; [shrank]  CLOSING SolrCore org.apache.solr.core.SolrCore@c65fb1
+INFO  - 2014-10-12 17:33:17.476; org.apache.solr.update.DirectUpdateHandler2; closing DirectUpdateHandler2{commits=0,autocommit maxTime=15000ms,autocommits=0,soft autocommit maxTime=1000ms,soft autocommits=0,optimizes=0,rollbacks=0,expungeDeletes=0,docsPending=0,adds=0,deletesById=0,deletesByQuery=0,errors=0,cumulative_adds=0,cumulative_deletesById=0,cumulative_deletesByQuery=0,cumulative_errors=0,transaction_logs_total_size=0,transaction_logs_total_number=0}
+INFO  - 2014-10-12 17:33:17.476; org.apache.solr.update.SolrCoreState; Closing SolrCoreState
+INFO  - 2014-10-12 17:33:17.476; org.apache.solr.update.DefaultSolrCoreState; SolrCoreState ref count has reached 0 - closing IndexWriter
+INFO  - 2014-10-12 17:33:17.476; org.apache.solr.update.DefaultSolrCoreState; closing IndexWriter with IndexWriterCloser
+INFO  - 2014-10-12 17:33:17.479; org.apache.solr.core.SolrCore; [shrank] Closing main searcher on request.
+INFO  - 2014-10-12 17:33:17.480; org.apache.solr.core.CachingDirectoryFactory; Closing StandardDirectoryFactory - 2 directories currently being tracked
+INFO  - 2014-10-12 17:33:17.481; org.apache.solr.core.CachingDirectoryFactory; looking to close /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data [CachedDir<<refCount=0;path=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data;done=false>>]
+INFO  - 2014-10-12 17:33:17.481; org.apache.solr.core.CachingDirectoryFactory; Closing directory: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data
+INFO  - 2014-10-12 17:33:17.481; org.apache.solr.core.CachingDirectoryFactory; looking to close /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data/index [CachedDir<<refCount=0;path=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data/index;done=false>>]
+INFO  - 2014-10-12 17:33:17.481; org.apache.solr.core.CachingDirectoryFactory; Closing directory: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/shrank/data/index
+INFO  - 2014-10-12 17:33:17.482; org.apache.solr.core.SolrCore; [collection1]  CLOSING SolrCore org.apache.solr.core.SolrCore@4aa0c486
+INFO  - 2014-10-12 17:33:17.482; org.apache.solr.update.DirectUpdateHandler2; closing DirectUpdateHandler2{commits=0,autocommit maxTime=15000ms,autocommits=0,soft autocommit maxTime=1000ms,soft autocommits=0,optimizes=0,rollbacks=0,expungeDeletes=0,docsPending=0,adds=0,deletesById=0,deletesByQuery=0,errors=0,cumulative_adds=0,cumulative_deletesById=0,cumulative_deletesByQuery=0,cumulative_errors=0,transaction_logs_total_size=0,transaction_logs_total_number=0}
+INFO  - 2014-10-12 17:33:17.482; org.apache.solr.update.SolrCoreState; Closing SolrCoreState
+INFO  - 2014-10-12 17:33:17.482; org.apache.solr.update.DefaultSolrCoreState; SolrCoreState ref count has reached 0 - closing IndexWriter
+INFO  - 2014-10-12 17:33:17.482; org.apache.solr.update.DefaultSolrCoreState; closing IndexWriter with IndexWriterCloser
+INFO  - 2014-10-12 17:33:17.483; org.apache.solr.core.SolrCore; [collection1] Closing main searcher on request.
+INFO  - 2014-10-12 17:33:17.484; org.apache.solr.core.CachingDirectoryFactory; Closing StandardDirectoryFactory - 2 directories currently being tracked
+INFO  - 2014-10-12 17:33:17.484; org.apache.solr.core.CachingDirectoryFactory; looking to close /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data [CachedDir<<refCount=0;path=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data;done=false>>]
+INFO  - 2014-10-12 17:33:17.484; org.apache.solr.core.CachingDirectoryFactory; Closing directory: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data
+INFO  - 2014-10-12 17:33:17.484; org.apache.solr.core.CachingDirectoryFactory; looking to close /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data/index [CachedDir<<refCount=0;path=/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data/index;done=false>>]
+INFO  - 2014-10-12 17:33:17.485; org.apache.solr.core.CachingDirectoryFactory; Closing directory: /Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr/collection1/data/index
+INFO  - 2014-10-12 17:33:17.487; org.eclipse.jetty.server.handler.ContextHandler; stopped o.e.j.w.WebAppContext{/solr,file:/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/solr-webapp/webapp/},/Users/dbraga/TRULIA_REPOS/git/thoth/thoth-solr-4.7.2/webapps/solr.war
