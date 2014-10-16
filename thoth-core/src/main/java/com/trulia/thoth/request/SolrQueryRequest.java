@@ -34,6 +34,15 @@ public class SolrQueryRequest {
    */
   private DateTime timestamp;
 
+  /**
+   * Is this query identified as a slow query
+   */
+  private boolean slowQueryTagPresent;
+
+  public boolean isSlowQueryTagPresent() {
+    return slowQueryTagPresent;
+  }
+
   public String getWebapp() {
     return webapp;
   }
@@ -77,6 +86,8 @@ public class SolrQueryRequest {
   @JsonProperty("params")
   public void setParams(String params) {
     this.params = params;
+    //TODO: bring this signature outside
+    slowQueryTagPresent = this.params.contains("slowPool=1");
   }
 
 
