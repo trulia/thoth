@@ -22,6 +22,9 @@ public class SolrQueryDocument extends MessageDocument{
   public static final String HITS = "hits_i";
   public static final String BITMASK = "bitmask_s";
 
+  public static final String SLOWQUERY_TAG = "slowQuery_b";
+  public static final String SLOWQUERY_VALIDITY_PREDICTION = "isSlowQueryPredictionValid_b";
+
   protected Date date;
   //private String messageType; // INFO - DEBUG - ERROR ?
   protected String logClass;
@@ -31,6 +34,8 @@ public class SolrQueryDocument extends MessageDocument{
   protected int qtime = -1;
   protected String bitmask = "-1";
   protected String body;
+  protected boolean slowQueryTag = false;
+  protected boolean slowQueryPredictionValidity = false;
 
 
 
@@ -55,6 +60,9 @@ public class SolrQueryDocument extends MessageDocument{
     if (status != "-1") solrInputDocument.addField(STATUS, status);
     if (hits != -1) solrInputDocument.addField(HITS, hits);
     if (bitmask!= "-1") solrInputDocument.addField(BITMASK, bitmask);
+
+    solrInputDocument.addField(SLOWQUERY_TAG, slowQueryTag);
+    solrInputDocument.addField(SLOWQUERY_VALIDITY_PREDICTION, slowQueryPredictionValidity);
     return  solrInputDocument;
   }
 
@@ -124,5 +132,21 @@ public class SolrQueryDocument extends MessageDocument{
 
   public void setBody(String body) {
     this.body = body;
+  }
+
+  public boolean isSlowQueryTag() {
+    return slowQueryTag;
+  }
+
+  public void setSlowQueryTag(boolean slowQueryTag) {
+    this.slowQueryTag = slowQueryTag;
+  }
+
+  public boolean isSlowQueryPredictionValidity() {
+    return slowQueryPredictionValidity;
+  }
+
+  public void setSlowQueryPredictionValidity(boolean slowQueryPredictionValidity) {
+    this.slowQueryPredictionValidity = slowQueryPredictionValidity;
   }
 }
