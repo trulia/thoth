@@ -20,7 +20,7 @@ public class SolrShardedQueryRequest extends SolrQueryRequest{
 
 
   public void setShardParam(){
-    Pattern pa = Pattern.compile("&ghl=([\\w]*)");
+    Pattern pa = Pattern.compile("&ghl=([\\w-]*)");
     String param = getParams();
     Matcher matcher = pa.matcher(param);
     while (matcher.find()){
