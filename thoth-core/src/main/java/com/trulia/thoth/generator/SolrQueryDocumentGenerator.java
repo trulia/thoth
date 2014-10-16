@@ -5,6 +5,7 @@ import com.trulia.thoth.classifier.Classifier;
 import com.trulia.thoth.document.MessageDocument;
 import com.trulia.thoth.document.SolrQueryDocument;
 import com.trulia.thoth.request.SolrQueryRequest;
+import com.trulia.thoth.util.QueryUtil;
 
 /**
  * User: dbraga - Date: 3/2/14
@@ -26,6 +27,10 @@ public class SolrQueryDocumentGenerator implements Generator{
     document.setHits(solrQueryRequest.getHits());
     document.setStatus("0");  //TODO: remove hard coded status
     document.setQtime((int) solrQueryRequest.getQtime());
+    document.setSlowQueryTag(solrQueryRequest.isSlowQueryTagPresent());
+    document.setSlowQueryPredictionValidity(
+        solrQueryRequest.isSlowQueryTagPresent() == QueryUtil.isSlowQuery((int) solrQueryRequest.getQtime())
+    );
     return document;
   }
 
