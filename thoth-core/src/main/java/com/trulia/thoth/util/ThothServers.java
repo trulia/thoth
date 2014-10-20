@@ -30,9 +30,13 @@ public class ThothServers {
     System.out.println("Fetching server details for hostname("+hostname+") coreName("+coreName+")");
     QueryResponse qr = realTimeThoth.query(new SolrQuery("hostname_s:\"" + hostname + "\"" +" AND " + "coreName_s:\"" +coreName + "\" AND NOT exception_b:true AND NOT slowQuery_b:true").setRows(1));
     SolrDocumentList solrDocumentList = qr.getResults();
-    String pool = (String)solrDocumentList.get(0).getFieldValue(POOL);
-    String port = solrDocumentList.get(0).getFieldValue(PORT).toString();
-    return new ServerDetail(hostname, pool, port, coreName);
+    ServerDetail sd = null;
+    if (qr.getResults().getNumFound() > 0) {
+      String pool = (String)solrDocumentList.get(0).getFieldValue(POOL);
+      String port = solrDocumentList.get(0).getFieldValue(PORT).toString();
+      sd = new ServerDetail(hostname, pool, port, coreName);
+    }
+    return sd;
   }
 
   public ArrayList<ServerDetail> getList(SolrServer realTimeThoth) throws SolrServerException {
@@ -46,7 +50,7 @@ public class ThothServers {
       for (PivotField pf: pivot.getPivot()){
         String coreName = (String) pf.getValue();
         ServerDetail detail = fetchServerDetails(hostname,coreName, realTimeThoth);
-        serverDetails.add(detail);
+        if (detail != null) serverDetails.add(detail);
       }
     }
     return serverDetails;
