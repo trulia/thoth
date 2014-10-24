@@ -105,7 +105,7 @@ public class SolrQueryRequestDocument extends AbstractBaseRequestDocument {
 
   @Override
   public void populateSolrInputDocument(SolrInputDocument solrInputDocument) {
-    if (timestamp != null) solrInputDocument.addField(DATE, timestamp);
+    if (timestamp != null) solrInputDocument.addField(DATE, timestamp.toDate());
     if (params != null) solrInputDocument.addField(PARAMS, params);
     if (qtime != -1) solrInputDocument.addField(QTIME, qtime);
     solrInputDocument.addField(STATUS, "0");  //TODO: remove hard coded status
