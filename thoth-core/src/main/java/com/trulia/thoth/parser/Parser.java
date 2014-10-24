@@ -2,6 +2,10 @@ package com.trulia.thoth.parser;
 
 
 import com.trulia.thoth.document.*;
+import com.trulia.thoth.document.MessageDocument;
+import com.trulia.thoth.document.SolrExceptionDocument;
+import com.trulia.thoth.document.SolrQueryDocument;
+import com.trulia.thoth.document.SolrShardedQueryDocument;
 import com.trulia.thoth.generator.SolrExceptionDocumentGenerator;
 import com.trulia.thoth.generator.SolrQueryDocumentGenerator;
 import com.trulia.thoth.generator.SolrShardedQueryDocumentGenerator;
@@ -9,6 +13,9 @@ import com.trulia.thoth.generator.WatchingDocumentGenerator;
 import com.trulia.thoth.mappers.Deserializer;
 import com.trulia.thoth.message.QueueMessage;
 import com.trulia.thoth.request.*;
+import com.trulia.thoth.requestdocuments.AbstractBaseRequestDocument;
+import com.trulia.thoth.requestdocuments.SolrQueryRequestDocument;
+import com.trulia.thoth.requestdocuments.SolrShardedQueryRequestDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -99,23 +106,26 @@ public class Parser {
     // Initialize the Object Mapper
     mapper = Deserializer.getInstance().getMapper();
     generateMessageDocument();
-
-
     source = getSource();
     if (source == null){   // Source was not set, skipping
       return;
     }
+    generateSolrInputDocument();
+  }
 
+  public void generateSolrInputDocument() throws IOException{
     if (source.equals(WATCHING_HANDLER)){
       generateWatchingRequest();
       WatchingDocument doc = new WatchingDocumentGenerator(getMessageDocument(), getWatchingRequest()).generate();
       solrInputDocument = doc.toSolrInputDocument();
-
     }
     if (source.equals(SOLR_QUERY)){
-      generateSolrQueryRequest();
-      SolrQueryDocument doc =  new SolrQueryDocumentGenerator(getMessageDocument(), getSolrQueryRequest()).generate();
-      solrInputDocument = doc.toSolrInputDocument();
+//      generateSolrQueryRequest();
+//      SolrQueryDocument doc =  new SolrQueryDocumentGenerator(getMessageDocument(), getSolrQueryRequest()).generate();
+//      solrInputDocument = doc.toSolrInputDocument();
+      AbstractBaseRequestDocument req = mapper.readValue(toParse, SolrQueryRequestDocument.class);
+      this.solrInputDocument = this.messageDocument.toSolrInputDocument();
+      req.populateSolrInputDocument(this.solrInputDocument);
 
     }
     if (source.equals(SOLR_EXCEPTION)){
@@ -124,11 +134,15 @@ public class Parser {
       solrInputDocument = doc.toSolrInputDocument();
     }
     if (source.equals(SOLR_SHARDED_QUERY)){
-      generateSolrShardedQueryRequest();
-      SolrShardedQueryDocument doc = new SolrShardedQueryDocumentGenerator(getMessageDocument(), getSolrShardedQueryRequest()).generate();
-      solrInputDocument = doc.toSolrInputDocument();
-    }
+//      generateSolrShardedQueryRequest();
+//      SolrShardedQueryDocument doc = new SolrShardedQueryDocumentGenerator(getMessageDocument(), getSolrShardedQueryRequest()).generate();
+//      solrInputDocument = doc.toSolrInputDocument();
 
+      AbstractBaseRequestDocument req = mapper.readValue(toParse, SolrShardedQueryRequestDocument.class);
+      this.solrInputDocument = this.messageDocument.toSolrInputDocument();
+      req.populateSolrInputDocument(this.solrInputDocument);
+
+    }
   }
 
   public SolrInputDocument getSolrInputDocument() {
