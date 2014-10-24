@@ -15,8 +15,6 @@ public class MessageDocument {
   protected int portNumber = -1;
   protected String source;
 
-  //TODO: duplicated
-  public  final String ID = "id";
   public  final String POOL = "pool_s";
   public  final String CORENAME = "coreName_s";
   public  final String HOSTNAME = "hostname_s";
