@@ -87,7 +87,7 @@ public class SolrQueryRequest {
   public void setParams(String params) {
     this.params = params;
     //TODO: bring this signature outside
-    slowQueryTagPresent = this.params.contains("slowPool=1");
+    slowQueryTagPresent = this.params.contains("slowpool=1");
   }
 
 
