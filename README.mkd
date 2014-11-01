@@ -15,16 +15,18 @@ Getting started with a quick Thoth demo
 git clone git@github.com:trulia/thoth-demo.git
 ```
 - Execute example.sh . 
-
-    *This will start an example activemq instance, an example solr from where we will intercept requests, and an example thoth index*
     ```
     ./example.sh
     ``` 
-    [Access to the activemq webUI](http://localhost:8161/admin/queues.jsp) will be on default port 8161
+    *This will start an demo version of activemq broker, a demo solr instance from where we will intercept requests, a demo thoth index, a demo version of thoth*
+
+    [Access to activemq webUI](http://localhost:8161/admin/queues.jsp) will be on default port 8161
     
-    [Access to the example solr instance](http://localhost:8900/solr/#/) will be on port 8900
+    [Access to demo solr instance ](http://localhost:8900/solr/#/) will be on port 8900
     
-    [Access to the example thoth index](http://localhost:8983/solr/#/) will be on port 8983
+    [Access to demo thoth index](http://localhost:8983/solr/#/) will be on port 8983
+
+    Thoth demo will be running on port 8081
     
 - Execute some solr queries from the example solr instance 
 	```
