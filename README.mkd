@@ -27,12 +27,12 @@ git clone git@github.com:trulia/thoth-demo.git
     [Access to the example thoth index](http://localhost:8983/solr/#/) will be on port 8983
     
 - Execute some solr queries from the example solr instance 
-```
-# Standard query *:*
-http://localhost:8900/solr/collection1/select?q=*%3A*&wt=json&indent=true
-# Query that will generate exception
-http://localhost:8900/solr/collection1/select?q=THIS_FIELD:DOES_NOT_EXIST&wt=json&indent=true
-```
+	```
+	# Standard query *:*
+	http://localhost:8900/solr/collection1/select?q=*%3A*&wt=json&indent=true
+	# Query that will generate exception
+	http://localhost:8900/solr/collection1/select?q=THIS_FIELD:DOES_NOT_EXIST&wt=json&indent=true
+	```
 - Verify that those requests got intercepted and indexed on the Thoth index
 ```
 http://localhost:8983/solr/collection1/select?q=*%3A*&wt=json&indent=true
