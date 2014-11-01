@@ -6,6 +6,7 @@ What is Thoth ?
 
 License
 =============
+Copyright (c) 2014 Trulia, Inc. See the LICENSE file for license rights and limitations.
 
 Thoth start guide
 =============
