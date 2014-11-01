@@ -8,8 +8,26 @@ License
 =============
 Copyright (c) 2014 Trulia, Inc. See the LICENSE file for license rights and limitations.
 
-Thoth start guide
+Getting started with a quick Thoth demo
 =============
+- Clone the demo project 
+```
+git clone git@github.com:trulia/thoth-demo.git
+```
+- Execute example.sh . 
+
+    *This will start an example activemq instance, an example solr from where we will intercept requests, and an example thoth index*
+    ```
+    cd example ; ./example.sh
+    ``` 
+    [Access to the activemq webUI](http://localhost:8161/admin/queues.jsp) will be on default port 8161
+    
+    [Access to the example solr instance](http://localhost:8900) will be on port 8900
+    
+    [Access to the example thoth index](http://localhost:8983) will be on port 8983
+    
+- Execute some queries from the example solr instance 
+
 
 Contribute
 =============
