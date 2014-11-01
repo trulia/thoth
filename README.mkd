@@ -10,37 +10,7 @@ Copyright (c) 2014 Trulia, Inc. See the LICENSE file for license rights and limi
 
 Getting started with a quick Thoth demo
 =============
-- Clone the demo project 
-```
-git clone git@github.com:trulia/thoth-demo.git
-```
-- Execute example.sh . 
-    ```
-    ./example.sh
-    ``` 
-    *This will start an demo version of activemq broker, a demo solr instance from where we will intercept requests, a demo thoth index, a demo version of thoth*
-
-    [Access to activemq webUI](http://localhost:8161/admin/queues.jsp) will be on default port 8161
-    
-    [Access to demo solr instance ](http://localhost:8900/solr/#/) will be on port 8900
-    
-    [Access to demo thoth index](http://localhost:8983/solr/#/) will be on port 8983
-
-    Thoth demo will be running on port 8081
-    
-- Execute some solr queries from the example solr instance 
-	```
-	# Standard query *:*
-	http://localhost:8900/solr/collection1/select?q=*%3A*&wt=json&indent=true
-	# Query that will generate exception
-	http://localhost:8900/solr/collection1/select?q=THIS_FIELD:DOES_NOT_EXIST&wt=json&indent=true
-	```
-- Verify that those requests got intercepted and indexed on the Thoth index
-```
-http://localhost:8983/solr/collection1/select?q=*%3A*&wt=json&indent=true
-```
-- Trigger a shrinking event
-
+Please visit [thoth demo](https://github.com/trulia/thoth-demo)
 
 Contribute
 =============
