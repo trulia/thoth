@@ -18,7 +18,7 @@ git clone git@github.com:trulia/thoth-demo.git
 
     *This will start an example activemq instance, an example solr from where we will intercept requests, and an example thoth index*
     ```
-    cd example ; ./example.sh
+    ./example.sh
     ``` 
     [Access to the activemq webUI](http://localhost:8161/admin/queues.jsp) will be on default port 8161
     
