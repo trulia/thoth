@@ -1,5 +1,6 @@
-Thoth
-=============
+<img align="left" src="thoth.png?raw=true">  &nbsp;&nbsp; Thoth
+======================
+<br><br>
 
 What is Thoth ?
 =============
@@ -14,3 +15,5 @@ Please visit [thoth demo](https://github.com/trulia/thoth-demo)
 
 Contribute
 =============
+
+
