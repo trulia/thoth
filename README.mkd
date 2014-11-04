@@ -1,5 +1,6 @@
-Thoth
-=============
+<img align="left" src="thoth.png?raw=true">  &nbsp;&nbsp; Thoth
+======================
+<br><br>
 
 What is Thoth ?
 =============
@@ -8,8 +9,11 @@ License
 =============
 Copyright (c) 2014 Trulia, Inc. See the LICENSE file for license rights and limitations.
 
-Thoth start guide
+Getting started with a quick Thoth demo
 =============
+Please visit [thoth demo](https://github.com/trulia/thoth-demo)
 
 Contribute
 =============
+
+
