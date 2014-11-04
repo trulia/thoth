@@ -3,13 +3,27 @@
 <br><br>
 
 What is Thoth ?
-=============
+=====================
+<Insert here Thoth project description and motivation>
+
+Thoth Modules
+----------------------------------
+- [Thoth Core & Indexing](https://github.com/trulia/thoth)
+- [Thoth Dashboard](https://github.com/trulia/thoth-dashboard)
+- [Thoth API](https://github.com/trulia/thoth-api)
+- [Thoth Monitor](https://github.com/trulia/thoth-monitor)
+- [Thoth Machine Learning](https://github.com/trulia/thoth-ml)
+- [Thoth Demo](https://github.com/trulia/thoth-demo)
 
 
+Getting started with Thoth
+---------------------------------
+Please visit [thoth demo](https://github.com/trulia/thoth-demo) repository page
 
-Getting started with a quick Thoth demo
-=============
-Please visit [thoth demo](https://github.com/trulia/thoth-demo)
+Thoth Core & Indexing
+==============================
+
+
 
 Contributing
 =======================
