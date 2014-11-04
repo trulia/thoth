@@ -5,15 +5,25 @@
 What is Thoth ?
 =============
 
-License
-=============
-Copyright (c) 2014 Trulia, Inc. See the LICENSE file for license rights and limitations.
+
 
 Getting started with a quick Thoth demo
 =============
 Please visit [thoth demo](https://github.com/trulia/thoth-demo)
 
-Contribute
+Contributing
+=======================
+1. Fork it
+2. Create your feature/bug fix branch (git checkout -b my-new-feature)
+3. Commit your changes (git commit -am 'Add some feature')
+4. Push to the branch (git push origin my-new-feature)
+5. Create new Pull Request
+
+Contributors
+=======================
+- [Damiano Braga](https://github.com/dbraga)
+- [Rajendra Shioramwar](https://github.com/rshioramwar)
+
+License
 =============
-
-
+Copyright (c) 2014 Trulia, Inc. See the LICENSE file for license rights and limitations.
