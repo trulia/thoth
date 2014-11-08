@@ -11,6 +11,7 @@ public class Scheduler {
   private boolean isEnabled;
   private int shrinkPeriod;
   private String thothIndexURL;
+  private int threadPoolSize;
 
   public void setSchedule(String schedule) {
     this.schedule = schedule;
@@ -22,12 +23,12 @@ public class Scheduler {
 
   public void init() throws SchedulerException {
 
-    if (isEnabled){
+    if (isEnabled){ // Only shrink if specified
       JobDetail workerJob = JobBuilder.newJob(ShrinkerJob.class)
-          .withIdentity("pendingWorkJob", "group1").build();
+          .withIdentity("shrinkingJob", "group1").build();
       Trigger workerTrigger = TriggerBuilder
           .newTrigger()
-          .withIdentity("pendingWorkTrigger", "group1")
+          .withIdentity("shrinkingTrigger", "group1")
           .withSchedule(
               CronScheduleBuilder.cronSchedule(schedule)) // execute this every day at midnight
           .build();
@@ -37,6 +38,7 @@ public class Scheduler {
       scheduler.start();
       scheduler.getContext().put("period", shrinkPeriod);
       scheduler.getContext().put("thothIndexUrl", thothIndexURL);
+      scheduler.getContext().put("threadPoolSize", threadPoolSize);
       scheduler.scheduleJob(workerJob, workerTrigger);
     }
   }
@@ -63,5 +65,13 @@ public class Scheduler {
 
   public String getThothIndexURL() {
     return thothIndexURL;
+  }
+
+  public void setThreadPoolSize(int threadPoolSize) {
+    this.threadPoolSize = threadPoolSize;
+  }
+
+  public int getThreadPoolSize() {
+    return threadPoolSize;
   }
 }

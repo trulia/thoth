@@ -20,7 +20,9 @@ public class ShrinkerJob implements Job {
   private static DateTime nowMinusTimeToShrink;
   private String thothIndexUrl;
   private int shrinkPeriod;
-  private int threadPoolSize = 1;
+  private int threadPoolSize;
+  private static final String realTimeCore = "collection1/";
+  private static final String shrankCore = "shrank/";
 
   @Override
   public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -29,12 +31,10 @@ public class ShrinkerJob implements Job {
       schedulerContext = context.getScheduler().getContext();
       shrinkPeriod = (Integer) schedulerContext.get("period");
       thothIndexUrl = (String) schedulerContext.get("thothIndexUrl");
-
+      threadPoolSize = (Integer) schedulerContext.get("threadPoolSize");
       nowMinusTimeToShrink = new DateTime().minusSeconds(shrinkPeriod);
-
       LOG.info("Shrinking documents between " + Utils.dateTimeToZuluFormat(nowMinusTimeToShrink) + " and " + Utils.dateTimeToZuluFormat(new DateTime()));
-      createShrinkers();
-
+      createDocumentShrinkers();
     } catch (SchedulerException e) {
       LOG.error(e);
     } catch (InterruptedException e) {
@@ -46,39 +46,23 @@ public class ShrinkerJob implements Job {
     }
   }
 
-
-
-
-
-
-
-
-
-
-  public void createShrinkers() throws SolrServerException, InterruptedException, ExecutionException {
+  public void createDocumentShrinkers() throws SolrServerException, InterruptedException, ExecutionException {
     ExecutorService service = Executors.newFixedThreadPool(threadPoolSize);
-    CompletionService<String> ser = new ExecutorCompletionService<String>(service);
-
-    HttpSolrServer thothServer = new HttpSolrServer(thothIndexUrl + "collection1/");
-    HttpSolrServer thothShrankServer = new HttpSolrServer(thothIndexUrl + "shrank/");
-
-
-    ThothServers thothServers  = new ThothServers();
-    ArrayList<ServerDetail> listOfServers = thothServers.getList(thothServer);
+    CompletionService<String> completionService = new ExecutorCompletionService<String>(service);
+    HttpSolrServer thothServer = new HttpSolrServer(thothIndexUrl + realTimeCore);
+    HttpSolrServer thothShrankServer = new HttpSolrServer(thothIndexUrl + shrankCore);
+    ArrayList<ServerDetail> listOfServers = new ThothServers().getList(thothServer);
 
     for (ServerDetail serverDetail: listOfServers){
       LOG.info("Shrinking docs for server("+serverDetail.getName()+"):("+serverDetail.getPort()+") ");
-      ser.submit(new DocumentShrinker(serverDetail, nowMinusTimeToShrink, thothServer, thothShrankServer));
+      completionService.submit(new DocumentShrinker(serverDetail, nowMinusTimeToShrink, thothServer, thothShrankServer));
     }
 
-
+    // Wait for all the executors to finish
     for(int i = 0; i < listOfServers.size(); i++){
-      String result = ser.take().get();
+      completionService.take().get();
     }
-    System.out.println("Done");
-    //System.out.println("Shutting down service");
-    //service.shutdown();
-    //System.exit(0);
+    LOG.info("Done Shrinking.");
   }
 
 
