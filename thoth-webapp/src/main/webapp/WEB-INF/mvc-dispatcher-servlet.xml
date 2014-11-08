@@ -11,7 +11,7 @@
         <property name="locations">
             <list>
                 <value>classpath:application.default.properties</value>
-                <value>classpath:application.properties</value>
+                <!--<value>classpath:application.properties</value>-->
             </list>
         </property>
     </bean>
@@ -29,7 +29,6 @@
 
     <bean id="thothIndexConnection" class="com.trulia.thoth.ThothConnection" init-method="init">
         <property name="thothIndexURL" value="${thoth.index.url}"/>
-
     </bean>
 
     <bean id="messageListener" class="org.springframework.jms.listener.DefaultMessageListenerContainer" >
@@ -48,5 +47,11 @@
         </property>
     </bean>
 
+    <bean id="shrinker" class="com.trulia.thoth.shrinker.Scheduler" init-method="init">
+        <property name="schedule"  value="${thoth.shrinker.schedule}"/>
+        <property name="isEnabled" value="${thoth.shrinker.enabled}"/>
+        <property name="shrinkPeriod" value="${thoth.shrinker.period}"/>
+        <property name="thothIndexURL" value="${thoth.index.url}"/>
+    </bean>
 
 </beans>
