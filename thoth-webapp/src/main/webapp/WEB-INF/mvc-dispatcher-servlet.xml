@@ -52,6 +52,7 @@
         <property name="isEnabled" value="${thoth.shrinker.enabled}"/>
         <property name="shrinkPeriod" value="${thoth.shrinker.period}"/>
         <property name="thothIndexURL" value="${thoth.index.url}"/>
+        <property name="threadPoolSize" value="${thoth.shrinker.threadPoolSize}"/>
     </bean>
 
 </beans>

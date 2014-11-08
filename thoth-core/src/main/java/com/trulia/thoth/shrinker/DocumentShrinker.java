@@ -14,7 +14,6 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.joda.time.DateTime;
 
-import javax.jms.JMSException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
@@ -25,110 +24,249 @@ public class DocumentShrinker implements Callable{
   private static final Logger LOG = Logger.getLogger(DocumentShrinker.class);
 
   private HttpSolrServer shrankServer;
-  private HttpSolrServer server;
+  private HttpSolrServer realTimeServer;
   private DateTime nowMinusTimeToShrink;
   private ServerDetail serverDetail;
   private static final String MASTER_MINUTES_DOCUMENT = "masterDocumentMin_b";
   public static final String SLOW_QUERY_DOCUMENT = "slowQueryDocument_b";
   private static final String MASTER_DOCUMENT_TIMESTAMP = "masterTime_dt";
+  private static final String NAME_RANGE_0_10 = "range-0-10_i";
+  private static final String NAME_RANGE_10_100 = "range-10-100_i";
+  private static final String NAME_RANGE_100_1000 = "range-100-1000_i";
+  private static final String NAME_RANGE_1000_OVER = "range-1000-OVER_i";
+  private static final String NAME_TOT_COUNT = "tot-count_i";
+  private static final String ZERO_HITS_QUERIES_COUNT = "zeroHits-count_i";
+  private static final String EXCEPTION_QUERIES_COUNT = "exceptionCount_i";
+  private static final String RANGE_QUERIES_COUNT = "RangeQueryCount_i";
+  private static final String FACET_QUERIES_COUNT = "FacetQueryCount_i";
+  private static final String PROPERTY_LOOKUP_QUERIES_COUNT = "PropertyLookupQueryCount_i";
+  private static final String PROPERTY_HASH_LOOKUP_QUERIES_COUNT = "PropertyHashLookupQueryCount_i";
+  private static final String GEOSPATIAL_QUERIES_COUNT = "GeospatialQueryCount_i";
+  private static final String OPENHOMES_QURIES_COUNT = "OpenHomesQueryCount_i";
+  private static final String AVG_QTIME = "avg_qtime_d";
+  private static final String AVG_REQUESTS_IN_PROGRESS = "avg_requestsInProgress_d";
+
+  private static final String VALUE_RANGE_0_10 = "0 TO 10";
+  private static final String VALUE_RANGE_10_100 = "11 TO 100";
+  private static final String VALUE_RANGE_100_1000 = "101 TO 1000";
+  private static final String VALUE_RANGE_1000_OVER = "1001 TO *";
+  private static final String VALUE_TOT_COUNT = "* TO *";
+
+  private static final String BITMASK_CONTAINS_RANGE_QUERY ="1??????";
+  private static final String BITMASK_CONTAINS_FACET_QUERY ="?1?????";
+  private static final String BITMASK_CONTAINS_PROPERTY_LOOKUP_QUERY ="??1????";
+  private static final String BITMASK_CONTAINS_PROPERTY_HASH_LOOKUP_QUERY ="???1???";
+  private static final String BITMASK_CONTAINS_GEOSPATIAL_QUERY ="?????1?";
+  private static final String BITMASK_CONTAINS_OPEN_HOMES_QUERY ="??????1";
+
+  public static final String ID = "id";
+  public static final String EXCEPTION = "exception_b";
+  public static final String QTIME = "qtime_i";
+  public static final String HITS = "hits_i";
+  public static final String BITMASK = "bitmask_s";
+  public static final String REQUESTS_IN_PROGRESS = "requestInProgress_i";
+
+
 
   public DocumentShrinker(ServerDetail serverDetail, DateTime nowMinusTimeToShrink, HttpSolrServer thothServer, HttpSolrServer thothShrankServer) {
     this.shrankServer = thothShrankServer;
-    this.server = thothServer;
+    this.realTimeServer = thothServer;
     this.nowMinusTimeToShrink = nowMinusTimeToShrink;
     this.serverDetail = serverDetail;
 
   }
 
+  /**
+   * Creates a range query following Solr syntax
+   * @param field field to be searched on
+   * @param range desired range
+   * @return
+   */
+  private String createRangeQuery(String field, String range){
+    return field + ":[" + range + "]";
+  }
 
+  /**
+   * Creates a field/value query folowing Solr Syntax
+   * @param field field to be searched on
+   * @param value desired value
+   * @return
+   */
+  private String createFieldValueQuery(String field, String value){
+    return field + ":" + value;
+  }
+
+
+  /**
+   * Define facet query to fetch facet counts from Thoth docs
+   * @return SolrQuery
+   */
   private SolrQuery defineFacetQuery(){
     return new SolrQuery().
         setFacet(true).
         // Get counts on
-            addFacetQuery(SolrLoggingDocument.QTIME + ":[" + Configuration.VALUE_RANGE_0_10 + "]").  // Qtime between 0 and 10 ms
-        addFacetQuery(SolrLoggingDocument.QTIME + ":["+ Configuration.VALUE_RANGE_10_100 +"]").  // Qtime between 10 and 100 ms
-        addFacetQuery(SolrLoggingDocument.QTIME + ":["+ Configuration.VALUE_RANGE_100_1000 +"]"). // Qtime between 100 and 1000 ms
-        addFacetQuery(SolrLoggingDocument.QTIME + ":["+ Configuration.VALUE_RANGE_1000_OVER +"]"). // Qtime over 1000
-        addFacetQuery(SolrLoggingDocument.QTIME + ":["+ Configuration.VALUE_TOT_COUNT +"]"). // All Qtimes
-        addFacetQuery(SolrLoggingDocument.HITS + ":0"). // 0 hits queries
-        addFacetQuery("NOT " + SolrLoggingDocument.HITS + ":0"). // queries with hits > 0
-        addFacetQuery(SolrLoggingDocument.EXCEPTION + ":true"). // exception documents
-        addFacetQuery(SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_RANGE_QUERY). // range queries
-        addFacetQuery(SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_FACET_QUERY). // facet queries
-        addFacetQuery(SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_PROPERTY_LOOKUP_QUERY). // lookup queries
-        addFacetQuery(SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_PROPERTY_HASH_LOOKUP_QUERY).  // hash lookup queries
-        addFacetQuery(SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_GEOSPATIAL_QUERY). // geospatial queries
-        addFacetQuery(SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_OPEN_HOMES_QUERY). // open homes queries
-
-        setQuery(createAggregationQuery()).
+        addFacetQuery(createRangeQuery(QTIME,VALUE_RANGE_0_10)).  // Qtime between 0 and 10 ms
+        addFacetQuery(createRangeQuery(QTIME,VALUE_RANGE_10_100)).  // Qtime between 10 and 100 ms
+        addFacetQuery(createRangeQuery(QTIME,VALUE_RANGE_100_1000)). // Qtime between 100 and 1000 ms
+        addFacetQuery(createRangeQuery(QTIME,VALUE_RANGE_1000_OVER)). // Qtime over 1000
+        addFacetQuery(createRangeQuery(QTIME,VALUE_TOT_COUNT)). // All Qtimes
+        addFacetQuery(createFieldValueQuery(HITS, "0")). // 0 hits queries
+        addFacetQuery(createFieldValueQuery("NOT " + HITS, "0")). // queries with hits > 0
+        addFacetQuery(createFieldValueQuery(EXCEPTION, "true")). // exception documents
+        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_RANGE_QUERY)).   // range queries
+        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_FACET_QUERY)). // facet queries
+        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_PROPERTY_LOOKUP_QUERY)). // lookup queries
+        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_PROPERTY_HASH_LOOKUP_QUERY)).  // hash lookup queries
+        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_GEOSPATIAL_QUERY)). // geospatial queries
+        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_OPEN_HOMES_QUERY)). // open homes queries
+        // Set normal query
+        setQuery(createThothDocsAggregationQuery()).
         setRows(0);
 
   }
 
   private SolrQuery defineStatsQuery(){
     SolrQuery solrQuery = new SolrQuery().
-        setQuery(createAggregationQuery()).
+        setQuery(createThothDocsAggregationQuery()).
         setRows(0);
-    solrQuery.setGetFieldStatistics(SolrLoggingDocument.QTIME);
-    solrQuery.setGetFieldStatistics(SolrLoggingDocument.REQUESTS_IN_PROGRESS);
+    solrQuery.setGetFieldStatistics(QTIME);
+    solrQuery.setGetFieldStatistics(REQUESTS_IN_PROGRESS);
     return solrQuery;
   }
 
-  public boolean isFieldPresent(Object o){
-    return o != null;
+  /**
+   * Check if a field is present
+   * @param field to check
+   * @return true if is present
+   */
+  public boolean isFieldPresent(Object field){
+    return (field != null);
   }
 
 
-  private SolrInputDocument addStatsToSolrInputDocument(QueryResponse rsp, SolrInputDocument solrInputDocument){
-    if (isFieldPresent(rsp.getFieldStatsInfo().get(SolrLoggingDocument.QTIME))){  // Add Qtime stats
-      solrInputDocument.addField(Configuration.AVG_QTIME, rsp.getFieldStatsInfo().get(SolrLoggingDocument.QTIME).getMean());
-    }
-
-    if (isFieldPresent(rsp.getFieldStatsInfo().get(SolrLoggingDocument.REQUESTS_IN_PROGRESS))){  // Add number of queries on deck
-      solrInputDocument.addField(Configuration.AVG_REQUESTS_IN_PROGRESS, rsp.getFieldStatsInfo().get(SolrLoggingDocument.REQUESTS_IN_PROGRESS).getMean());
-    }
-
-    return solrInputDocument;
-  }
-
-
-  private String createAggregationQuery(){ // look for every document that has
+  /**
+   * Generate query for to aggregate thoth docs
+   * @return solr query
+   */
+  private String createThothDocsAggregationQuery(){ // look for every document that has
     return MessageDocument.TIMESTAMP + ":[" + Utils.dateTimeToZuluSolrFormat(nowMinusTimeToShrink) + " TO *] " +   // timestamp between the date provided (past) and now
         "AND " + MessageDocument.HOSTNAME + ":\"" + serverDetail.getName() + "\" " + // with the provided hostname
         "AND NOT " + MASTER_MINUTES_DOCUMENT + ":true " + // that has not already shrank
         "AND NOT " + SLOW_QUERY_DOCUMENT + ":true" ; // and it's not a slow query document
   }
+
+  /**
+   * Determine if there is any data to shrink
+   * @param rsp query response
+   * @return true or false depending if there is any data to shrink
+   */
+  private boolean isThereAnythingToShrink(QueryResponse rsp){
+    return (rsp.getResults().getNumFound() > 0) ;
+  }
+
+  /**
+   * Fetch stats about the thoth documents
+   * @return query response containing stats
+   * @throws SolrServerException
+   */
+
+  public QueryResponse fetchStats() throws SolrServerException {
+    return realTimeServer.query(defineStatsQuery());
+  }
+
+
+  /**
+   * Fetch facets about the thoth documents
+   * @return query response containing facets
+   * @throws SolrServerException
+   */
+  public QueryResponse fetchFacets() throws SolrServerException {
+    return  realTimeServer.query(defineFacetQuery());
+  }
+
+
+  /**
+   * Generate a Shrank document given facets and stats
+   * @param facets
+   * @param stats
+   * @return Shrank document
+   */
+  public SolrInputDocument generateShrankDocument(QueryResponse facets, QueryResponse stats){
+     SolrInputDocument shrankDocument = new SolrInputDocument();
+
+    if (isFieldPresent(stats.getFieldStatsInfo().get(QTIME))){  // Add QTime stats
+      shrankDocument.addField(AVG_QTIME, stats.getFieldStatsInfo().get(QTIME).getMean());
+    }
+
+    if (isFieldPresent(stats.getFieldStatsInfo().get(REQUESTS_IN_PROGRESS))){  // Add number of queries on deck
+      shrankDocument.addField(AVG_REQUESTS_IN_PROGRESS, stats.getFieldStatsInfo().get(REQUESTS_IN_PROGRESS).getMean());
+    }
+
+
+    shrankDocument.addField(MASTER_DOCUMENT_TIMESTAMP, Utils.dateTimeToZuluSolrFormat(nowMinusTimeToShrink));
+    shrankDocument.addField(MASTER_MINUTES_DOCUMENT, true);
+
+    // Information about the Solr instance
+    shrankDocument.addField(MessageDocument.HOSTNAME, serverDetail.getName());
+    shrankDocument.addField(MessageDocument.POOL, serverDetail.getPool());
+    shrankDocument.addField(MessageDocument.PORT, Integer.parseInt(serverDetail.getPort()));
+    shrankDocument.addField(MessageDocument.CORENAME, serverDetail.getCore());
+
+
+    // QTime ranges
+    shrankDocument.addField(NAME_RANGE_0_10, getValueFromFacet(facets, QTIME + ":[" + VALUE_RANGE_0_10 + "]"));
+    shrankDocument.addField(NAME_RANGE_10_100, getValueFromFacet(facets, QTIME + ":[" + VALUE_RANGE_10_100 + "]"));
+    shrankDocument.addField(NAME_RANGE_100_1000, getValueFromFacet(facets, QTIME + ":[" + VALUE_RANGE_100_1000 + "]"));
+    shrankDocument.addField(NAME_RANGE_1000_OVER, getValueFromFacet(facets, QTIME + ":[" + VALUE_RANGE_1000_OVER + "]"));
+    shrankDocument.addField(NAME_TOT_COUNT, getValueFromFacet(facets, QTIME + ":[" + VALUE_TOT_COUNT + "]"));
+
+    // Zero hits queries
+    shrankDocument.addField(ZERO_HITS_QUERIES_COUNT, getValueFromFacet(facets, HITS + ":0"));
+
+    // Exception count
+    shrankDocument.addField(EXCEPTION_QUERIES_COUNT, getValueFromFacet(facets, EXCEPTION + ":true"));
+
+    // Type of queries
+    // TODO: generalize
+    shrankDocument.addField(RANGE_QUERIES_COUNT, getValueFromFacet(facets, BITMASK + ":" + BITMASK_CONTAINS_RANGE_QUERY));
+    shrankDocument.addField(FACET_QUERIES_COUNT, getValueFromFacet(facets, BITMASK + ":" + BITMASK_CONTAINS_FACET_QUERY));
+    shrankDocument.addField(PROPERTY_LOOKUP_QUERIES_COUNT, getValueFromFacet(facets, BITMASK + ":" + BITMASK_CONTAINS_PROPERTY_LOOKUP_QUERY));
+    shrankDocument.addField(PROPERTY_HASH_LOOKUP_QUERIES_COUNT, getValueFromFacet(facets, BITMASK + ":" + BITMASK_CONTAINS_PROPERTY_HASH_LOOKUP_QUERY));
+    shrankDocument.addField(GEOSPATIAL_QUERIES_COUNT, getValueFromFacet(facets, BITMASK + ":" + BITMASK_CONTAINS_GEOSPATIAL_QUERY));
+    shrankDocument.addField(OPENHOMES_QURIES_COUNT, getValueFromFacet(facets, BITMASK + ":" + BITMASK_CONTAINS_OPEN_HOMES_QUERY));
+
+
+    return shrankDocument;
+  }
+
   @Override
   public Object call() throws Exception {
     try {
 
-      QueryResponse rsp = server.query(defineFacetQuery());
+      QueryResponse thothDocumentsFacets = fetchFacets();
 
-      if (rsp.getResults().getNumFound() > 0){
-        // Got something to shrink
+      if (isThereAnythingToShrink(thothDocumentsFacets)){
+
+        // Something to shrink
         LOG.info("Found stuff to shrink for server " + serverDetail.getName());
+        // Fetch some stats about the thoth documents
+        QueryResponse thothDocumentsStats = fetchStats();
+        // Prepare the shrank document
+        SolrInputDocument shrankDocument = generateShrankDocument(thothDocumentsFacets, thothDocumentsStats);
 
-        SolrInputDocument solrInputDocument = new SolrInputDocument();
-        QueryResponse qr = server.query(defineStatsQuery());
-
-        // Add avg stats to the shrank document
-        solrInputDocument = addStatsToSolrInputDocument(qr, solrInputDocument);
-        // Add other stats to the shrank document
-        solrInputDocument = generateShrankDocument(rsp, solrInputDocument);
         // Add the document to the index
-        shrankServer.add(solrInputDocument);
+        shrankServer.add(shrankDocument);
 
+
+        // TODO : slow queries
         // Tag the top slow documents and add them to the index
-        ArrayList<SolrInputDocument> solrInputDocuments = generateSlowQueryDocuments(server);
+        ArrayList<SolrInputDocument> solrInputDocuments = generateSlowQueryDocuments(realTimeServer);
         for (SolrInputDocument si : solrInputDocuments){
           shrankServer.add(si);
         }
 
-        // TODO : ENABLE
-        checkForRedFlags(solrInputDocument);
-
         // Wipe out documents already used
-        Sweeper sweeper = new Sweeper(server, createSweepingQuery());
+        Sweeper sweeper = new Sweeper(realTimeServer, createSweepingQuery());
         sweeper.sweep();
 
       } else {
@@ -143,7 +281,7 @@ public class DocumentShrinker implements Callable{
       LOG.error(e);
     }
     finally {
-      return "Run";
+      return "Completed";
     }
 
   }
@@ -158,19 +296,11 @@ public class DocumentShrinker implements Callable{
             "AND " + MessageDocument.PORT + ":\""+ serverDetail.getPort() +"\" " +
             "AND NOT " + MASTER_MINUTES_DOCUMENT + ":true " +
             // Keep the exception documents for now
-            "AND NOT " + SolrLoggingDocument.EXCEPTION + ":true " +
+            "AND NOT " + EXCEPTION + ":true " +
             "AND NOT " + SLOW_QUERY_DOCUMENT + ":true";
   }
 
-  public void checkForRedFlags(SolrInputDocument solrInputDocument) throws JMSException {
-    //LOG.info("QTime monitor for " + serverName);
-    //new QtimeMonitor(solrInputDocument, Configuration.ACTIVEMQ_QUEUE_THOTH_NAGIOS, Loader.getInstance().getConfig()).check();
-    //LOG.info("Zero hits monitor for " + serverName);
-    //new ZeroHitsMonitor(solrInputDocument, Configuration.ACTIVEMQ_QUEUE_THOTH_NAGIOS, Loader.getInstance().getConfig()).check();
-    //LOG.info("Exception monitor for " + serverName);
-    //new QtimeMonitor(solrInputDocument, Configuration.ACTIVEMQ_QUEUE_THOTH_NAGIOS, Loader.getInstance().getConfig()).check();
-    LOG.info("Skipping ...");
-  }
+
 
   private Object getValueFromFacet(QueryResponse rsp, String key){
     return rsp.getFacetQuery().get(key);
@@ -182,16 +312,16 @@ public class DocumentShrinker implements Callable{
 
     QueryResponse qr = server.query(
         new SolrQuery()
-            .setQuery(createAggregationQuery())
-            .addSort(SolrLoggingDocument.QTIME, SolrQuery.ORDER.desc)
+            .setQuery(createThothDocsAggregationQuery())
+            .addSort(QTIME, SolrQuery.ORDER.desc)
             .setRows(10)
     );
 
     for (SolrDocument solrDocument: qr.getResults()){
       SolrInputDocument si = ClientUtils.toSolrInputDocument(solrDocument);
-      si.removeField(SolrLoggingDocument.ID);
+      si.removeField(ID);
       si.removeField("_version_");
-      //si.addField(SolrLoggingDocument.ID,System.currentTimeMillis()+"-sq-" + Math.random());
+      //si.addField(ID,System.currentTimeMillis()+"-sq-" + Math.random());
       si.addField(SLOW_QUERY_DOCUMENT, true);
       LOG.debug("Adding slow query document for server " + serverDetail.getName());
       //server.add(si);
@@ -200,52 +330,4 @@ public class DocumentShrinker implements Callable{
     return solrInputDocumentArrayList;
   }
 
-  private SolrInputDocument generateShrankDocument(QueryResponse rsp, SolrInputDocument solrInputDocument){
-    //SolrInputDocument solrInputDocument = new SolrInputDocument();
-
-
-
-
-    //TODO: uniquify this id
-    //String id = System.currentTimeMillis()+"-ds-"+ Math.random();
-    //LOG.info("Document shrank id: " + id);
-
-    // New fields unique for the shank document
-    //solrInputDocument.addField(ID, id);
-    solrInputDocument.addField(MASTER_DOCUMENT_TIMESTAMP, Utils.dateTimeToZuluSolrFormat(nowMinusTimeToShrink));
-    solrInputDocument.addField(MASTER_MINUTES_DOCUMENT, true);
-
-
-    // Information about the solr server
-    solrInputDocument.addField(MessageDocument.HOSTNAME, serverDetail.getName());
-    solrInputDocument.addField(MessageDocument.POOL, serverDetail.getPool());
-    solrInputDocument.addField(MessageDocument.PORT, Integer.parseInt(serverDetail.getPort()));
-    solrInputDocument.addField(MessageDocument.CORENAME, serverDetail.getCore());
-
-
-    // Ranges
-    solrInputDocument.addField(Configuration.NAME_RANGE_0_10, getValueFromFacet(rsp, SolrLoggingDocument.QTIME + ":[" + Configuration.VALUE_RANGE_0_10 + "]"));
-    solrInputDocument.addField(Configuration.NAME_RANGE_10_100, getValueFromFacet(rsp, SolrLoggingDocument.QTIME + ":[" + Configuration.VALUE_RANGE_10_100 + "]"));
-    solrInputDocument.addField(Configuration.NAME_RANGE_100_1000, getValueFromFacet(rsp, SolrLoggingDocument.QTIME + ":[" + Configuration.VALUE_RANGE_100_1000 + "]"));
-    solrInputDocument.addField(Configuration.NAME_RANGE_1000_OVER, getValueFromFacet(rsp, SolrLoggingDocument.QTIME + ":[" + Configuration.VALUE_RANGE_1000_OVER + "]"));
-    solrInputDocument.addField(Configuration.NAME_TOT_COUNT, getValueFromFacet(rsp, SolrLoggingDocument.QTIME + ":[" + Configuration.VALUE_TOT_COUNT + "]"));
-
-    // Zero hits queries
-    solrInputDocument.addField(Configuration.ZERO_HITS_QUERIES_COUNT, getValueFromFacet(rsp, SolrLoggingDocument.HITS + ":0"));
-
-    // Exception count
-    solrInputDocument.addField(Configuration.EXCEPTION_QUERIES_COUNT, getValueFromFacet(rsp, SolrLoggingDocument.EXCEPTION + ":true"));
-    // avg_hits_i  !?
-
-    // Type of queries
-    solrInputDocument.addField(Configuration.RANGE_QUERIES_COUNT, getValueFromFacet(rsp, SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_RANGE_QUERY));
-    solrInputDocument.addField(Configuration.FACET_QUERIES_COUNT, getValueFromFacet(rsp, SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_FACET_QUERY));
-    solrInputDocument.addField(Configuration.PROPERTY_LOOKUP_QUERIES_COUNT, getValueFromFacet(rsp, SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_PROPERTY_LOOKUP_QUERY));
-    solrInputDocument.addField(Configuration.PROPERTY_HASH_LOOKUP_QUERIES_COUNT, getValueFromFacet(rsp, SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_PROPERTY_HASH_LOOKUP_QUERY));
-    solrInputDocument.addField(Configuration.GEOSPATIAL_QUERIES_COUNT, getValueFromFacet(rsp, SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_GEOSPATIAL_QUERY));
-    solrInputDocument.addField(Configuration.OPENHOMES_QURIES_COUNT, getValueFromFacet(rsp, SolrLoggingDocument.BITMASK + ":" + Configuration.CONTAINS_OPEN_HOMES_QUERY));
-
-    return solrInputDocument;
-
-  }
 }
