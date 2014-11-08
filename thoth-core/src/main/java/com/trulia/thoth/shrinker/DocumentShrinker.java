@@ -5,7 +5,6 @@ import com.trulia.thoth.pojo.ServerDetail;
 import com.trulia.thoth.util.Utils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -14,7 +13,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.concurrent.Callable;
 
 /**
@@ -66,7 +65,7 @@ public class DocumentShrinker implements Callable{
   public static final String BITMASK = "bitmask_s";
   public static final String REQUESTS_IN_PROGRESS = "requestInProgress_i";
 
-
+  private int MAX_NUMBER_SLOW_THOTH_DOCS = 10;
 
   public DocumentShrinker(ServerDetail serverDetail, DateTime nowMinusTimeToShrink, HttpSolrServer thothServer, HttpSolrServer thothShrankServer) {
     this.shrankServer = thothShrankServer;
@@ -75,6 +74,47 @@ public class DocumentShrinker implements Callable{
     this.serverDetail = serverDetail;
 
   }
+
+  /**
+   * 1) Find thoth documents in the real time core
+   * 2) Get information about those docs, like facets and stats
+   * 3) Create Shrank summary document from them, and add the document to the shrank core
+   * 4) Tag top slow thoth documents and add them to the shrank core
+   * 5) Clean up real time core
+   */
+
+  @Override
+  public Object call() throws Exception {
+    try {
+      QueryResponse thothDocumentsFacets = fetchFacets();
+      if (isThereAnythingToShrink(thothDocumentsFacets)){
+        // Something to shrink
+        LOG.info("Found documents to shrink for server " + serverDetail.getName() + "("+serverDetail.getCore()+"):" + serverDetail.getPort());
+        // Fetch some stats about the thoth documents
+        QueryResponse thothDocumentsStats = fetchStats();
+        // Prepare the shrank document
+        SolrInputDocument shrankDocument = generateShrankDocument(thothDocumentsFacets, thothDocumentsStats);
+        // Add the document to the index
+        shrankServer.add(shrankDocument);
+        // Tag slower request documents and add them to the shrank core
+        tagAndAddSlowThothDocuments();
+        // Clean real time core
+        realTimeServer.deleteByQuery(getRealTimeCoreCleanUpQuery());
+      } else {
+        LOG.info("Nothing to shrink for server " + serverDetail.getName() +":"+serverDetail.getPort()+" core:"+serverDetail.getCore()+" ...");
+      }
+      LOG.info( serverDetail.getName() +":"+serverDetail.getPort()+" core:"+serverDetail.getCore()+ " shrinking completed.");
+    } catch (SolrServerException e) {
+      LOG.error(e);
+    } catch (Exception e) {
+      LOG.error(e);
+    }
+    finally {
+      return "Completed";
+    }
+
+  }
+
 
   /**
    * Creates a range query following Solr syntax
@@ -149,10 +189,11 @@ public class DocumentShrinker implements Callable{
    * @return solr query
    */
   private String createThothDocsAggregationQuery(){ // look for every document that has
-    return MessageDocument.TIMESTAMP + ":[" + Utils.dateTimeToZuluSolrFormat(nowMinusTimeToShrink) + " TO *] " +   // timestamp between the date provided (past) and now
-        "AND " + MessageDocument.HOSTNAME + ":\"" + serverDetail.getName() + "\" " + // with the provided hostname
-        "AND NOT " + MASTER_MINUTES_DOCUMENT + ":true " + // that has not already shrank
-        "AND NOT " + SLOW_QUERY_DOCUMENT + ":true" ; // and it's not a slow query document
+    return
+        createRangeQuery(MessageDocument.TIMESTAMP, Utils.dateTimeToZuluSolrFormat(nowMinusTimeToShrink) + " TO *") +   // timestamp between the interval provided (past) and now
+        createFieldValueQuery(MessageDocument.HOSTNAME,"\"" + serverDetail.getName() + "\"" ) +  // with the provided hostname
+        " AND NOT " + createFieldValueQuery(MASTER_MINUTES_DOCUMENT ,"true ") + // that has not already shrank
+        " AND NOT " + createFieldValueQuery(SLOW_QUERY_DOCUMENT ,"true") ; // and it's not a slow query document
   }
 
   /**
@@ -239,95 +280,57 @@ public class DocumentShrinker implements Callable{
     return shrankDocument;
   }
 
-  @Override
-  public Object call() throws Exception {
-    try {
-
-      QueryResponse thothDocumentsFacets = fetchFacets();
-
-      if (isThereAnythingToShrink(thothDocumentsFacets)){
-
-        // Something to shrink
-        LOG.info("Found stuff to shrink for server " + serverDetail.getName());
-        // Fetch some stats about the thoth documents
-        QueryResponse thothDocumentsStats = fetchStats();
-        // Prepare the shrank document
-        SolrInputDocument shrankDocument = generateShrankDocument(thothDocumentsFacets, thothDocumentsStats);
-
-        // Add the document to the index
-        shrankServer.add(shrankDocument);
-
-
-        // TODO : slow queries
-        // Tag the top slow documents and add them to the index
-        ArrayList<SolrInputDocument> solrInputDocuments = generateSlowQueryDocuments(realTimeServer);
-        for (SolrInputDocument si : solrInputDocuments){
-          shrankServer.add(si);
-        }
-
-        // Wipe out documents already used
-        Sweeper sweeper = new Sweeper(realTimeServer, createSweepingQuery());
-        sweeper.sweep();
-
-      } else {
-        LOG.info("Nothing to shrink for server " + serverDetail.getName() +":"+serverDetail.getPort()+" core:"+serverDetail.getCore()+" ...");
-      }
-
-      LOG.info( serverDetail.getName() +":"+serverDetail.getPort()+" core:"+serverDetail.getCore()+ " shrinking completed.");
-
-    } catch (SolrServerException e) {
-      LOG.error(e);
-    } catch (Exception e) {
-      LOG.error(e);
-    }
-    finally {
-      return "Completed";
-    }
-
-  }
-
-  private String createSweepingQuery(){
-    // Remove the single documents
-    return
-        //MessageDocument.TIMESTAMP + ":[* TO "+ Utils.dateTimeToZuluSolrFormat(past) +"] " +
-        // "AND " +
-        MessageDocument.HOSTNAME + ":\""+ serverDetail.getName() +"\" " +
-            "AND " + MessageDocument.CORENAME + ":\""+ serverDetail.getCore() +"\" " +
-            "AND " + MessageDocument.PORT + ":\""+ serverDetail.getPort() +"\" " +
-            "AND NOT " + MASTER_MINUTES_DOCUMENT + ":true " +
-            // Keep the exception documents for now
-            "AND NOT " + EXCEPTION + ":true " +
-            "AND NOT " + SLOW_QUERY_DOCUMENT + ":true";
-  }
-
-
-
-  private Object getValueFromFacet(QueryResponse rsp, String key){
-    return rsp.getFacetQuery().get(key);
-  }
-
-
-  private ArrayList<SolrInputDocument> generateSlowQueryDocuments(SolrServer server) throws SolrServerException {
-    ArrayList<SolrInputDocument> solrInputDocumentArrayList = new ArrayList<SolrInputDocument>();
-
-    QueryResponse qr = server.query(
+  /**
+   * Tag slower documents and add them to the shrank core
+   */
+  private void tagAndAddSlowThothDocuments() throws IOException, SolrServerException {
+    // Query to return top MAX_NUMBER_SLOW_THOTH_DOCS slower thoth documents
+    QueryResponse qr = realTimeServer.query(
         new SolrQuery()
             .setQuery(createThothDocsAggregationQuery())
             .addSort(QTIME, SolrQuery.ORDER.desc)
-            .setRows(10)
+            .setRows(MAX_NUMBER_SLOW_THOTH_DOCS)
     );
 
     for (SolrDocument solrDocument: qr.getResults()){
       SolrInputDocument si = ClientUtils.toSolrInputDocument(solrDocument);
+      // Remove old ID and version
       si.removeField(ID);
       si.removeField("_version_");
-      //si.addField(ID,System.currentTimeMillis()+"-sq-" + Math.random());
+      // Tag document as slow
       si.addField(SLOW_QUERY_DOCUMENT, true);
       LOG.debug("Adding slow query document for server " + serverDetail.getName());
-      //server.add(si);
-      solrInputDocumentArrayList.add(si);
+      shrankServer.add(si);
     }
-    return solrInputDocumentArrayList;
   }
+
+
+  /**
+   * Create real time core clean up query
+   * @return clean up query
+   */
+  private String getRealTimeCoreCleanUpQuery(){
+    // Remove the single documents
+    return
+        createFieldValueQuery(MessageDocument.HOSTNAME, "\""+ serverDetail.getName() +"\"")
+        + " AND " + createFieldValueQuery(MessageDocument.CORENAME, "\""+ serverDetail.getCore() +"\"")
+        + " AND " + createFieldValueQuery(MessageDocument.PORT, "\""+ serverDetail.getPort() +"\"")
+        + " AND NOT " + createFieldValueQuery(MASTER_MINUTES_DOCUMENT, "true")
+        // Keep the exception documents for now
+        + " AND NOT " + createFieldValueQuery(EXCEPTION, "true")
+        + " AND NOT " + createFieldValueQuery(SLOW_QUERY_DOCUMENT, "true");
+  }
+
+
+  /**
+   * Retrieve value from Facet
+   * @param rsp query response
+   * @param key field key
+   * @return object value
+   */
+  private Object getValueFromFacet(QueryResponse rsp, String key){
+    return rsp.getFacetQuery().get(key);
+  }
+
 
 }
