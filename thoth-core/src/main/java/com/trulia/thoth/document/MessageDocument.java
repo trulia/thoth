@@ -15,12 +15,12 @@ public class MessageDocument {
   protected int portNumber = -1;
   protected String source;
 
-  public  final String POOL = "pool_s";
-  public  final String CORENAME = "coreName_s";
-  public  final String HOSTNAME = "hostname_s";
-  public  final String PORT = "port_i";
-  public  final String TIMESTAMP = "timestamp_dt";
-  public  final String SOURCE = "source_s";
+  public  static final String POOL = "pool_s";
+  public  static final String CORENAME = "coreName_s";
+  public  static final String HOSTNAME = "hostname_s";
+  public  static final String PORT = "port_i";
+  public  static final String TIMESTAMP = "timestamp_dt";
+  public  static final String SOURCE = "source_s";
 
   protected  String messageType; // INFO - DEBUG - ERROR ?
 
