@@ -1,4 +1,4 @@
-<img align="left" src="thoth.png?raw=true">  &nbsp;&nbsp; Thoth
+<img align="left" src="img/thoth.png?raw=true">  &nbsp;&nbsp; Thoth
 ======================
 <br><br>
 
@@ -10,7 +10,7 @@ Want to learn more? [See the Wiki](https://github.com/trulia/thoth/wiki)
 Thoth Core (Indexing)
 ======================
 **Thoth Core** is the module that is responsable of creating Thoth documents from solr search requests and indexing them inside the Thoth index.
-< INSERT HERE SCHEMA >
+<img src="img/thoth-core-schema.png?raw=true"> 
 For instruction on how to use this module, or a list of the other modules [See the Wiki](https://github.com/trulia/thoth/wiki)
 
 Contributing
@@ -21,13 +21,11 @@ Contributing
 4. Push to the branch (git push origin my-new-feature)
 5. Create new Pull Request
 
+Thoth Core - Contributors
+=======================
+- [Damiano Braga](https://github.com/dbraga)
+- [Rajendra Shioramwar](https://github.com/rshioramwar)
+
 License
 =============
 Copyright (c) 2014 Trulia, Inc. See the LICENSE file for license rights and limitations.
-
-
-
-
-
-
-
