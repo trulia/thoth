@@ -4,26 +4,14 @@
 
 What is Thoth ?
 =====================
-<Insert here Thoth project description and motivation>
+**Thoth** is a real-time solr monitor and search analysis engine. It's a set of tools that can help you collect, visualize and leaverage data coming from your solr search infrastucture.
+Want to learn more? [See the Wiki](https://github.com/trulia/thoth/wiki)
 
-Thoth Modules
-----------------------------------
-- [Thoth Core & Indexing](https://github.com/trulia/thoth)
-- [Thoth Dashboard](https://github.com/trulia/thoth-dashboard)
-- [Thoth API](https://github.com/trulia/thoth-api)
-- [Thoth Monitor](https://github.com/trulia/thoth-monitor)
-- [Thoth Machine Learning](https://github.com/trulia/thoth-ml)
-- [Thoth Demo](https://github.com/trulia/thoth-demo)
-
-
-Getting started with Thoth
----------------------------------
-Please visit [thoth demo](https://github.com/trulia/thoth-demo) repository page
-
-Thoth Core & Indexing
-==============================
-
-
+Thoth Core (Indexing)
+======================
+**Thoth Core** is the module that is responsable of creating Thoth documents from solr search requests and indexing them inside the Thoth index.
+< INSERT HERE SCHEMA >
+For instruction on how to use this module, or a list of the other modules [See the Wiki](https://github.com/trulia/thoth/wiki)
 
 Contributing
 =======================
@@ -33,11 +21,13 @@ Contributing
 4. Push to the branch (git push origin my-new-feature)
 5. Create new Pull Request
 
-Contributors
-=======================
-- [Damiano Braga](https://github.com/dbraga)
-- [Rajendra Shioramwar](https://github.com/rshioramwar)
-
 License
 =============
 Copyright (c) 2014 Trulia, Inc. See the LICENSE file for license rights and limitations.
+
+
+
+
+
+
+
