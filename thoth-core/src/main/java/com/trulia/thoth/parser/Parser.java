@@ -1,15 +1,7 @@
 package com.trulia.thoth.parser;
 
 
-import com.trulia.thoth.document.*;
 import com.trulia.thoth.document.MessageDocument;
-import com.trulia.thoth.document.SolrExceptionDocument;
-import com.trulia.thoth.document.SolrQueryDocument;
-import com.trulia.thoth.document.SolrShardedQueryDocument;
-import com.trulia.thoth.generator.SolrExceptionDocumentGenerator;
-import com.trulia.thoth.generator.SolrQueryDocumentGenerator;
-import com.trulia.thoth.generator.SolrShardedQueryDocumentGenerator;
-import com.trulia.thoth.generator.WatchingDocumentGenerator;
 import com.trulia.thoth.mappers.Deserializer;
 import com.trulia.thoth.message.QueueMessage;
 import com.trulia.thoth.request.*;
@@ -126,7 +118,7 @@ public class Parser {
     if (source.equals(SOLR_SHARDED_QUERY)){
       req = mapper.readValue(toParse, SolrShardedQueryRequestDocument.class);
     }
-    if(req!= null) {
+    if(req != null) {
     req.populateSolrInputDocument(this.solrInputDocument);
     }
   }
@@ -135,7 +127,7 @@ public class Parser {
     return solrInputDocument;
   }
 
-  public boolean parsedCorreclty(){
+  public boolean parsedCorrectly(){
     return solrInputDocument != null && getSource()!= null ;
   }
 }

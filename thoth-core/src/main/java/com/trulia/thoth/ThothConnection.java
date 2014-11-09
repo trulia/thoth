@@ -1,7 +1,10 @@
 package com.trulia.thoth;
-
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
+
+/**
+ * User: dbraga - Date: 7/19/14
+ */
 
 public class ThothConnection {
 
@@ -9,10 +12,6 @@ public class ThothConnection {
   private static ThothConnection instance = new ThothConnection();
   private SolrServer server;
   private String thothIndexURL;
-
-  //private ThothConnection(){
-  //  server = new HttpSolrServer(thothIndexURL);
-  //}
 
   public static ThothConnection getInstance(){
     return instance;
