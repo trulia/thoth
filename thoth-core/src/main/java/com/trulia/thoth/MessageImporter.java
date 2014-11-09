@@ -16,6 +16,7 @@ import java.io.IOException;
 /**
  * User: dbraga - Date: 7/19/14
  */
+
 public class MessageImporter implements MessageListener, ErrorHandler {
   private static final Logger LOG = Logger.getLogger(MessageImporter.class);
   private static SolrServer server;
@@ -41,9 +42,9 @@ public class MessageImporter implements MessageListener, ErrorHandler {
         );
         Parser parser = new Parser(msgDequeued, queueMessage);
 
-        if (parser.parsedCorreclty()) {
+        if (parser.parsedCorrectly()) {
           server.add(parser.getSolrInputDocument());
-          LOG.info("Added query for [" + message.getStringProperty(QueueMessage.HOSTNAME) +":"  + message.getStringProperty(QueueMessage.PORT ) + " core: " + message.getStringProperty(QueueMessage.CORENAME )+ "]");
+          LOG.info("Added request for [" + message.getStringProperty(QueueMessage.HOSTNAME) +":"  + message.getStringProperty(QueueMessage.PORT ) + " core: " + message.getStringProperty(QueueMessage.CORENAME )+ "]");
         }
       }
     }
