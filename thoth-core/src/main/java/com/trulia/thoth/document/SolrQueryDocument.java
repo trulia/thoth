@@ -1,13 +1,12 @@
 package com.trulia.thoth.document;
 
 import org.apache.solr.common.SolrInputDocument;
-import org.joda.time.DateTime;
 
 import java.util.Date;
 
 /**
- * User: dbraga - Date: 12/1/13
- */
+* User: dbraga - Date: 12/1/13
+*/
 public class SolrQueryDocument extends MessageDocument{
 
   //TODO: remove?
@@ -37,6 +36,7 @@ public class SolrQueryDocument extends MessageDocument{
   protected boolean slowQueryTag = false;
   protected boolean slowQueryPredictionValidity = false;
 
+  public SolrQueryDocument(){};
 
 
 
@@ -74,9 +74,9 @@ public class SolrQueryDocument extends MessageDocument{
     this.date = date;
   }
 
-  public void setDate(DateTime d) {
-    this.date = d.toDate();
-  }
+  //public void setDate(DateTime d) {
+  //  this.date = d.toDate();
+  //}
 
   public String getLogClass() {
     return logClass;

@@ -10,6 +10,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * User: dbraga - Date: 9/7/13
@@ -26,14 +27,9 @@ public class Parser {
   private SolrQueryRequest solrQueryRequest;
   private SolrShardedQueryRequest solrShardedQueryRequest;
   private SolrExceptionRequest solrExceptionRequest;
+  private HashMap<String, Class> parserList;
 
   private String source;
-  // Allowed sources
-  private static final String WATCHING_HANDLER = "WatchingRequest";
-  private static final String SOLR_QUERY = "SolrQuery";
-  private static final String SOLR_SHARDED_QUERY = "SolrShardedQuery";
-  private static final String SOLR_EXCEPTION = "ExceptionSolrQuery";
-
 
   public MessageDocument getMessageDocument(){
     return this.messageDocument;
@@ -90,8 +86,9 @@ public class Parser {
     return this.messageDocument.getSource();
   }
 
-  public Parser(String toParse, QueueMessage queueMessage) throws IOException {
+  public Parser(String toParse, QueueMessage queueMessage, HashMap<String, Class> parserList) throws IOException {
     this.toParse = toParse;
+    this.parserList = parserList;
     this.queueMessage = queueMessage;
     // Initialize the Object Mapper
     mapper = Deserializer.getInstance().getMapper();
@@ -106,21 +103,11 @@ public class Parser {
   public void generateSolrInputDocument() throws IOException{
     this.solrInputDocument = this.messageDocument.toSolrInputDocument();
     AbstractBaseRequestDocument req = null;
-    if (source.equals(WATCHING_HANDLER)){
-       req = mapper.readValue(toParse, WatchingRequestDocument.class);
-    }
-    if (source.equals(SOLR_QUERY)){
-       req = mapper.readValue(toParse, SolrQueryRequestDocument.class);
-    }
-    if (source.equals(SOLR_EXCEPTION)){
-       req = mapper.readValue(toParse, SolrExceptionRequestDocument.class);
-    }
-    if (source.equals(SOLR_SHARDED_QUERY)){
-      req = mapper.readValue(toParse, SolrShardedQueryRequestDocument.class);
-    }
-    if(req != null) {
-    req.populateSolrInputDocument(this.solrInputDocument);
-    }
+
+    if (parserList.get(source) != null){
+      req = (AbstractBaseRequestDocument) mapper.readValue(toParse, parserList.get(source));
+      req.populateSolrInputDocument(this.solrInputDocument);
+    } else System.out.println("Source not recognized. Skipping...");
   }
 
   public SolrInputDocument getSolrInputDocument() {

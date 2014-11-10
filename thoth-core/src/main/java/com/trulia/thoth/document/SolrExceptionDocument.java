@@ -10,6 +10,9 @@ public class SolrExceptionDocument extends SolrQueryDocument {
   private static final String STACKTRACE = "stackTrace_s";
   public static final String EXCEPTION = "exception_b";
 
+
+  public SolrExceptionDocument(){};
+
   public SolrInputDocument toSolrInputDocument(){
     SolrInputDocument solrInputDocument = super.toSolrInputDocument();
     if (stackTrace != null) solrInputDocument.addField(STACKTRACE, stackTrace);
