@@ -11,7 +11,7 @@ Thoth Core (Indexing)
 ======================
 **Thoth Core** is the module that is responsable of creating Thoth documents from solr search requests and indexing them inside the Thoth index.
 <img src="img/thoth-core-schema.png?raw=true"> 
-For instruction on how to use this module, or a list of the other modules [See the Wiki](https://github.com/trulia/thoth/wiki)
+For instructions on how to use this module, or a list of the other modules [See the Wiki](https://github.com/trulia/thoth/wiki)
 
 Contributing
 =======================
@@ -19,7 +19,7 @@ Contributing
 2. Create your feature/bug fix branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
-5. Create new Pull Request
+5. Create new pull request
 
 Thoth Core - Contributors
 =======================
