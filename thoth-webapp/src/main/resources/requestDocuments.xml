@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RequestDocuments>
+    <RequestDocument>
+        <name>ExceptionSolrQuery</name>
+        <className>com.trulia.thoth.requestdocuments.SolrExceptionRequestDocument</className>
+    </RequestDocument>
+    <RequestDocument>
+        <name>SolrQuery</name>
+        <className>com.trulia.thoth.requestdocuments.SolrQueryRequestDocument</className>
+    </RequestDocument>
+    <RequestDocument>
+        <name>SolrShardedQuery</name>
+        <className>com.trulia.thoth.requestdocuments.SolrShardedQueryRequestDocument</className>
+    </RequestDocument>
+    <RequestDocument>
+        <name>WatchingRequest</name>
+        <className>com.trulia.thoth.requestdocuments.WatchingRequestDocument</className>
+    </RequestDocument>
+
+</RequestDocuments>

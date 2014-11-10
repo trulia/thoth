@@ -11,7 +11,7 @@
         <property name="locations">
             <list>
                 <value>classpath:application.default.properties</value>
-                <value>classpath:application.properties</value>
+                <!--<value>classpath:application.properties</value>-->
             </list>
         </property>
     </bean>
@@ -40,6 +40,7 @@
         <property name="messageListener">
             <bean class="com.trulia.thoth.MessageImporter" init-method="init">
                 <property name="thothIndexConnection" ref="thothIndexConnection"/>
+                <property name="configurationFile" value="${thoth.requestDocument.configuration.file}"/>
             </bean>
         </property>
         <property name="errorHandler">
