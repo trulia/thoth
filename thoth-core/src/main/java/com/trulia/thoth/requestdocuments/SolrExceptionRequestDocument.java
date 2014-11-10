@@ -1,6 +1,5 @@
 package com.trulia.thoth.requestdocuments;
 
-import com.trulia.thoth.document.MessageDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonProperty;
 
