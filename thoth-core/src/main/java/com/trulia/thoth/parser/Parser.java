@@ -1,11 +1,11 @@
 package com.trulia.thoth.parser;
 
 
-import com.trulia.thoth.document.MessageDocument;
 import com.trulia.thoth.mappers.Deserializer;
 import com.trulia.thoth.message.QueueMessage;
 import com.trulia.thoth.request.*;
-import com.trulia.thoth.requestdocuments.*;
+import com.trulia.thoth.requestdocuments.AbstractBaseRequestDocument;
+import com.trulia.thoth.requestdocuments.MessageRequestDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class Parser {
   private QueueMessage queueMessage;
   private ObjectMapper mapper;
-  private MessageDocument messageDocument;
+  private MessageRequestDocument messageDocument;
   private String toParse;
   private SolrInputDocument solrInputDocument;
 
@@ -31,7 +31,7 @@ public class Parser {
 
   private String source;
 
-  public MessageDocument getMessageDocument(){
+  public MessageRequestDocument getMessageDocument(){
     return this.messageDocument;
   }
 
@@ -70,7 +70,7 @@ public class Parser {
   }
 
   public void generateMessageDocument() {
-    messageDocument = new MessageDocument();
+    messageDocument = new MessageRequestDocument();
     try{
       // Fetch information about the host contained in the queueMessage and copy them in the messageDocument
       messageDocument.setPortNumber(Integer.parseInt(queueMessage.getPort()));
