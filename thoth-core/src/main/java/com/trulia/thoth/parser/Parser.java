@@ -3,7 +3,6 @@ package com.trulia.thoth.parser;
 
 import com.trulia.thoth.mappers.Deserializer;
 import com.trulia.thoth.message.QueueMessage;
-import com.trulia.thoth.request.*;
 import com.trulia.thoth.requestdocuments.AbstractBaseRequestDocument;
 import com.trulia.thoth.requestdocuments.MessageRequestDocument;
 import org.apache.solr.common.SolrInputDocument;
@@ -22,51 +21,12 @@ public class Parser {
   private String toParse;
   private SolrInputDocument solrInputDocument;
 
-
-  private WatchingRequest watchingRequest;
-  private SolrQueryRequest solrQueryRequest;
-  private SolrShardedQueryRequest solrShardedQueryRequest;
-  private SolrExceptionRequest solrExceptionRequest;
   private HashMap<String, Class> parserList;
 
   private String source;
 
   public MessageRequestDocument getMessageDocument(){
     return this.messageDocument;
-  }
-
-  public void generateWatchingRequest() throws IOException {
-    this.watchingRequest = mapper.readValue(toParse, WatchingRequest.class);
-  }
-
-  public void generateSolrExceptionRequest() throws IOException {
-    this.solrExceptionRequest = mapper.readValue(toParse, SolrExceptionRequest.class);
-  }
-
-
-  public void generateSolrQueryRequest() throws IOException {
-    this.solrQueryRequest = mapper.readValue(toParse, SolrQueryRequest.class);
-  }
-
-  public SolrShardedQueryRequest getSolrShardedQueryRequest() {
-    return solrShardedQueryRequest;
-  }
-
-  public void generateSolrShardedQueryRequest() throws IOException {
-    this.solrShardedQueryRequest = mapper.readValue(toParse, SolrShardedQueryRequest.class);
-    this.solrShardedQueryRequest.setShardParam();
-  }
-
-  public WatchingRequest getWatchingRequest() {
-    return this.watchingRequest;
-  }
-
-  public SolrQueryRequest getSolrQueryRequest(){
-    return this.solrQueryRequest;
-  }
-
-  public SolrExceptionRequest getSolrExceptionRequest(){
-    return this.solrExceptionRequest;
   }
 
   public void generateMessageDocument() {
@@ -78,7 +38,7 @@ public class Parser {
       messageDocument.setCoreName(queueMessage.getCoreName());
       messageDocument.setMessageType(queueMessage.getMessageType());
       messageDocument.setPool(queueMessage.getPool());
-      messageDocument.setSource(mapper.readValue(toParse, Message.class).getSource());
+      messageDocument.setSource(mapper.readValue(toParse, MessageRequestDocument.class).getSource());
     } catch (Exception ignored){}
   }
 

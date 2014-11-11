@@ -1,7 +1,7 @@
 package com.trulia.thoth.shrinker;
 
-import com.trulia.thoth.document.MessageDocument;
 import com.trulia.thoth.pojo.ServerDetail;
+import com.trulia.thoth.requestdocuments.MessageRequestDocument;
 import com.trulia.thoth.util.Utils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -190,8 +190,8 @@ public class DocumentShrinker implements Callable{
    */
   private String createThothDocsAggregationQuery(){ // look for every document that has
     return
-        createRangeQuery(MessageDocument.TIMESTAMP, Utils.dateTimeToZuluSolrFormat(nowMinusTimeToShrink) + " TO *") +   // timestamp between the interval provided (past) and now
-        createFieldValueQuery(MessageDocument.HOSTNAME,"\"" + serverDetail.getName() + "\"" ) +  // with the provided hostname
+        createRangeQuery(MessageRequestDocument.TIMESTAMP, Utils.dateTimeToZuluSolrFormat(nowMinusTimeToShrink) + " TO *") +   // timestamp between the interval provided (past) and now
+        createFieldValueQuery(MessageRequestDocument.HOSTNAME,"\"" + serverDetail.getName() + "\"" ) +  // with the provided hostname
         " AND NOT " + createFieldValueQuery(MASTER_MINUTES_DOCUMENT ,"true ") + // that has not already shrank
         " AND NOT " + createFieldValueQuery(SLOW_QUERY_DOCUMENT ,"true") ; // and it's not a slow query document
   }
@@ -248,10 +248,10 @@ public class DocumentShrinker implements Callable{
     shrankDocument.addField(MASTER_MINUTES_DOCUMENT, true);
 
     // Information about the Solr instance
-    shrankDocument.addField(MessageDocument.HOSTNAME, serverDetail.getName());
-    shrankDocument.addField(MessageDocument.POOL, serverDetail.getPool());
-    shrankDocument.addField(MessageDocument.PORT, Integer.parseInt(serverDetail.getPort()));
-    shrankDocument.addField(MessageDocument.CORENAME, serverDetail.getCore());
+    shrankDocument.addField(MessageRequestDocument.HOSTNAME, serverDetail.getName());
+    shrankDocument.addField(MessageRequestDocument.POOL, serverDetail.getPool());
+    shrankDocument.addField(MessageRequestDocument.PORT, Integer.parseInt(serverDetail.getPort()));
+    shrankDocument.addField(MessageRequestDocument.CORENAME, serverDetail.getCore());
 
 
     // QTime ranges
@@ -312,9 +312,9 @@ public class DocumentShrinker implements Callable{
   private String getRealTimeCoreCleanUpQuery(){
     // Remove the single documents
     return
-        createFieldValueQuery(MessageDocument.HOSTNAME, "\""+ serverDetail.getName() +"\"")
-        + " AND " + createFieldValueQuery(MessageDocument.CORENAME, "\""+ serverDetail.getCore() +"\"")
-        + " AND " + createFieldValueQuery(MessageDocument.PORT, "\""+ serverDetail.getPort() +"\"")
+        createFieldValueQuery(MessageRequestDocument.HOSTNAME, "\""+ serverDetail.getName() +"\"")
+        + " AND " + createFieldValueQuery(MessageRequestDocument.CORENAME, "\""+ serverDetail.getCore() +"\"")
+        + " AND " + createFieldValueQuery(MessageRequestDocument.PORT, "\""+ serverDetail.getPort() +"\"")
         + " AND NOT " + createFieldValueQuery(MASTER_MINUTES_DOCUMENT, "true")
         // Keep the exception documents for now
         + " AND NOT " + createFieldValueQuery(EXCEPTION, "true")
