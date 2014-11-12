@@ -24,6 +24,7 @@ Contributing
 Thoth Core - Contributors
 =======================
 - [Damiano Braga](https://github.com/dbraga)
+- [Praneet Mhatre](https://github.com/pmhatre)
 - [Rajendra Shioramwar](https://github.com/rshioramwar)
 
 License
