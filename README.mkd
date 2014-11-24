@@ -6,7 +6,8 @@ What is Thoth ?
 =====================
 **Thoth** is a real-time solr monitor and search analysis engine. It's a set of tools that can help you collect, visualize and leverage data coming from your solr search infrastructure.
 Want to learn more? [See the Wiki](https://github.com/trulia/thoth/wiki)
-
+<br>
+Any suggestions or question? Talk and follow us on [twitter](https://twitter.com/Project_Thoth)
 Thoth Core (Indexing)
 ======================
 **Thoth Core** is the module that is responsible for creating Thoth documents from solr search requests and indexing them inside the Thoth index.
