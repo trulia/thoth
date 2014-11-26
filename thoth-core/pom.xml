@@ -96,11 +96,6 @@
                 <version>2.1</version>
                 <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>net.sourceforge</groupId>
-                <artifactId>javaml</artifactId>
-                <version>0.1.5</version>
-            </dependency>
 
             <dependency>
                 <groupId>junit</groupId>
