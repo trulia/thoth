@@ -116,25 +116,6 @@ public class DocumentShrinker implements Callable{
   }
 
 
-  /**
-   * Creates a range query following Solr syntax
-   * @param field field to be searched on
-   * @param range desired range
-   * @return
-   */
-  private String createRangeQuery(String field, String range){
-    return field + ":[" + range + "]";
-  }
-
-  /**
-   * Creates a field/value query folowing Solr Syntax
-   * @param field field to be searched on
-   * @param value desired value
-   * @return
-   */
-  private String createFieldValueQuery(String field, String value){
-    return field + ":" + value;
-  }
 
 
   /**
@@ -145,20 +126,20 @@ public class DocumentShrinker implements Callable{
     return new SolrQuery().
         setFacet(true).
         // Get counts on
-        addFacetQuery(createRangeQuery(QTIME,VALUE_RANGE_0_10)).  // Qtime between 0 and 10 ms
-        addFacetQuery(createRangeQuery(QTIME,VALUE_RANGE_10_100)).  // Qtime between 10 and 100 ms
-        addFacetQuery(createRangeQuery(QTIME,VALUE_RANGE_100_1000)). // Qtime between 100 and 1000 ms
-        addFacetQuery(createRangeQuery(QTIME,VALUE_RANGE_1000_OVER)). // Qtime over 1000
-        addFacetQuery(createRangeQuery(QTIME,VALUE_TOT_COUNT)). // All Qtimes
-        addFacetQuery(createFieldValueQuery(HITS, "0")). // 0 hits queries
-        addFacetQuery(createFieldValueQuery("NOT " + HITS, "0")). // queries with hits > 0
-        addFacetQuery(createFieldValueQuery(EXCEPTION, "true")). // exception documents
-        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_RANGE_QUERY)).   // range queries
-        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_FACET_QUERY)). // facet queries
-        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_PROPERTY_LOOKUP_QUERY)). // lookup queries
-        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_PROPERTY_HASH_LOOKUP_QUERY)).  // hash lookup queries
-        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_GEOSPATIAL_QUERY)). // geospatial queries
-        addFacetQuery(createFieldValueQuery(BITMASK, BITMASK_CONTAINS_OPEN_HOMES_QUERY)). // open homes queries
+        addFacetQuery(Utils.createRangeQuery(QTIME,VALUE_RANGE_0_10)).  // Qtime between 0 and 10 ms
+        addFacetQuery(Utils.createRangeQuery(QTIME,VALUE_RANGE_10_100)).  // Qtime between 10 and 100 ms
+        addFacetQuery(Utils.createRangeQuery(QTIME,VALUE_RANGE_100_1000)). // Qtime between 100 and 1000 ms
+        addFacetQuery(Utils.createRangeQuery(QTIME,VALUE_RANGE_1000_OVER)). // Qtime over 1000
+        addFacetQuery(Utils.createRangeQuery(QTIME,VALUE_TOT_COUNT)). // All Qtimes
+        addFacetQuery(Utils.createFieldValueQuery(HITS, "0")). // 0 hits queries
+        addFacetQuery(Utils.createFieldValueQuery("NOT " + HITS, "0")). // queries with hits > 0
+        addFacetQuery(Utils.createFieldValueQuery(EXCEPTION, "true")). // exception documents
+        addFacetQuery(Utils.createFieldValueQuery(BITMASK, BITMASK_CONTAINS_RANGE_QUERY)).   // range queries
+        addFacetQuery(Utils.createFieldValueQuery(BITMASK, BITMASK_CONTAINS_FACET_QUERY)). // facet queries
+        addFacetQuery(Utils.createFieldValueQuery(BITMASK, BITMASK_CONTAINS_PROPERTY_LOOKUP_QUERY)). // lookup queries
+        addFacetQuery(Utils.createFieldValueQuery(BITMASK, BITMASK_CONTAINS_PROPERTY_HASH_LOOKUP_QUERY)).  // hash lookup queries
+        addFacetQuery(Utils.createFieldValueQuery(BITMASK, BITMASK_CONTAINS_GEOSPATIAL_QUERY)). // geospatial queries
+        addFacetQuery(Utils.createFieldValueQuery(BITMASK, BITMASK_CONTAINS_OPEN_HOMES_QUERY)). // open homes queries
         // Set normal query
         setQuery(createThothDocsAggregationQuery()).
         setRows(0);
@@ -190,10 +171,10 @@ public class DocumentShrinker implements Callable{
    */
   private String createThothDocsAggregationQuery(){ // look for every document that has
     return
-        createRangeQuery(MessageRequestDocument.TIMESTAMP, Utils.dateTimeToZuluSolrFormat(nowMinusTimeToShrink) + " TO *") +   // timestamp between the interval provided (past) and now
-        createFieldValueQuery(MessageRequestDocument.HOSTNAME,"\"" + serverDetail.getName() + "\"" ) +  // with the provided hostname
-        " AND NOT " + createFieldValueQuery(MASTER_MINUTES_DOCUMENT ,"true ") + // that has not already shrank
-        " AND NOT " + createFieldValueQuery(SLOW_QUERY_DOCUMENT ,"true") ; // and it's not a slow query document
+        Utils.createRangeQuery(MessageRequestDocument.TIMESTAMP, Utils.dateTimeToZuluSolrFormat(nowMinusTimeToShrink) + " TO *") +   // timestamp between the interval provided (past) and now
+        Utils.createFieldValueQuery(MessageRequestDocument.HOSTNAME,"\"" + serverDetail.getName() + "\"" ) +  // with the provided hostname
+        " AND NOT " + Utils.createFieldValueQuery(MASTER_MINUTES_DOCUMENT ,"true ") + // that has not already shrank
+        " AND NOT " + Utils.createFieldValueQuery(SLOW_QUERY_DOCUMENT ,"true") ; // and it's not a slow query document
   }
 
   /**
@@ -312,13 +293,13 @@ public class DocumentShrinker implements Callable{
   private String getRealTimeCoreCleanUpQuery(){
     // Remove the single documents
     return
-        createFieldValueQuery(MessageRequestDocument.HOSTNAME, "\""+ serverDetail.getName() +"\"")
-        + " AND " + createFieldValueQuery(MessageRequestDocument.CORENAME, "\""+ serverDetail.getCore() +"\"")
-        + " AND " + createFieldValueQuery(MessageRequestDocument.PORT, "\""+ serverDetail.getPort() +"\"")
-        + " AND NOT " + createFieldValueQuery(MASTER_MINUTES_DOCUMENT, "true")
+        Utils.createFieldValueQuery(MessageRequestDocument.HOSTNAME, "\"" + serverDetail.getName() + "\"")
+        + " AND " + Utils.createFieldValueQuery(MessageRequestDocument.CORENAME, "\"" + serverDetail.getCore() + "\"")
+        + " AND " + Utils.createFieldValueQuery(MessageRequestDocument.PORT, "\"" + serverDetail.getPort() + "\"")
+        + " AND NOT " + Utils.createFieldValueQuery(MASTER_MINUTES_DOCUMENT, "true")
         // Keep the exception documents for now
-        + " AND NOT " + createFieldValueQuery(EXCEPTION, "true")
-        + " AND NOT " + createFieldValueQuery(SLOW_QUERY_DOCUMENT, "true");
+        + " AND NOT " + Utils.createFieldValueQuery(EXCEPTION, "true")
+        + " AND NOT " + Utils.createFieldValueQuery(SLOW_QUERY_DOCUMENT, "true");
   }
 
 
