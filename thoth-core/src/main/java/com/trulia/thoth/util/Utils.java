@@ -37,4 +37,25 @@ public class Utils {
     return  sdf.format(dateTime.toDate());
   }
 
+
+
+  /**
+   * Creates a range query following Solr syntax
+   * @param field field to be searched on
+   * @param range desired range
+   * @return
+   */
+  public static String createRangeQuery(String field, String range){
+    return field + ":[" + range + "]";
+  }
+
+  /**
+   * Creates a field/value query folowing Solr Syntax
+   * @param field field to be searched on
+   * @param value desired value
+   * @return
+   */
+  public static String createFieldValueQuery(String field, String value){
+    return field + ":" + value;
+  }
 }
