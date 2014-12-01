@@ -31,6 +31,23 @@ public class IgnoredServers {
     }
   }
 
+  /**
+   * Check if server is part of the ignored servers
+   * @param serverDetail server to check
+   * @return true if ignored , false if not
+   */
+  public boolean isServerIgnored(ServerDetail serverDetail){
+    for (ServerDetail toCheck: ignoredServerDetails){
+      if ((toCheck.getName().equals(serverDetail.getName())) &&
+          (toCheck.getCore().equals(serverDetail.getCore())) &&
+          (toCheck.getPool().equals(serverDetail.getPool())) &&
+          (toCheck.getPort().equals(serverDetail.getPort()))){
+        return true;
+      }
+    }
+    return false;
+  }
+
   public ArrayList<ServerDetail> getIgnoredServersDetail(){
     return this.ignoredServerDetails;
   }
@@ -42,4 +59,9 @@ public class IgnoredServers {
   public IgnoredServers(String ignoredServersString){
     convertStringListToArraylist(ignoredServersString);
   }
+
+  public IgnoredServers(ArrayList<ServerDetail> ignoredServerDetails){
+    this.ignoredServerDetails = ignoredServerDetails;
+  }
+
 }
