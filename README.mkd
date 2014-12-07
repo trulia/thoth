@@ -1,4 +1,4 @@
-<img align="left" src="img/thoth.png?raw=true">  &nbsp;&nbsp; Thoth
+<img align="left" src="img/thoth.png?raw=true">  &nbsp;&nbsp; Thoth  &nbsp;&nbsp;&nbsp;&nbsp; <img src="https://travis-ci.org/trulia/thoth.svg">
 ======================
 <br><br>
 
