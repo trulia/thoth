@@ -17,25 +17,21 @@ public class Classifier {
 
   private static Pattern rangePattern = Pattern.compile("\\w*:\\[(.*?TO.*?)\\]");
   private static Pattern facetPattern = Pattern.compile("facet=true");
-  private static Pattern propertyLookupPattern = Pattern.compile("propertyId_s:");
-  private static Pattern propertyAddressHashPattern = Pattern.compile("propertyAddressHash_s:");
   private static Pattern collapsingSearchPattern = Pattern.compile("collapse.field=");
   private static Pattern geospatialSearchPattern = Pattern.compile("!spatial");
-  private static Pattern openHomesPattern = Pattern.compile("ohDay_ms:\\[");
 
   /*
    bitMask
 
    [0] = containsRangeQuery
    [1] = isFacetingSearch
-   [2] = isPropertyLookup
-   [3] = isPropertyHashLookup
-   [4] = isCollapsingSearch
-   [5] = isGeospatialSearch
-   [6] = containsOpenHomes
+   [2] = isCollapsingSearch
+   [3] = isGeospatialSearch
 
 */
-  private int[] bitMask = {0,0,0,0,0,0,0};
+  public static final int BITMASK_SIZE = 4;
+
+  private int[] bitMask = {0,0,0,0};
 
   private void latch(int position){
     bitMask[position] = 1;
@@ -60,11 +56,8 @@ public class Classifier {
     }
 
     if (checkForMatch(facetPattern)) latch(1);
-    if (checkForMatch(propertyLookupPattern)) latch(2);
-    if (checkForMatch(propertyAddressHashPattern)) latch(3);
-    if (checkForMatch(collapsingSearchPattern)) latch(4);
-    if (checkForMatch(geospatialSearchPattern)) latch(5);
-    if (checkForMatch(openHomesPattern)) latch(6);
+    if (checkForMatch(collapsingSearchPattern)) latch(2);
+    if (checkForMatch(geospatialSearchPattern)) latch(3);
 
     return bitmaskToString();
   }
